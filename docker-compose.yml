@@ -32,7 +32,17 @@ services:
       MYSQL_ROOT_PASSWORD: jacky
       MYSQL_DATABASE: laravel
       TZ: 'Asia/Taipei'
+
   redis:
     image: redis:7.2-rc3
     ports:
       - "6379:6379"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: jacky
