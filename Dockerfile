@@ -22,8 +22,13 @@ RUN apt-get update && \
     php-xdebug \
     composer \
     mysql-client \
-    redis-server && \
+    redis-server \
+    nodejs \
+    npm \
+    yarn && \
     rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /run/php/
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 

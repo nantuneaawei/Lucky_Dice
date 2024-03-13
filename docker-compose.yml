@@ -18,6 +18,7 @@ services:
     image: awei-app
     ports:
       - "9000:9000"
+      - "5173:5173"
     volumes:
       - .:/var/www/html
     depends_on:
@@ -30,7 +31,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: jacky
       MYSQL_DATABASE: laravel
-
+      TZ: 'Asia/Taipei'
   redis:
     image: redis:7.2-rc3
     ports:
