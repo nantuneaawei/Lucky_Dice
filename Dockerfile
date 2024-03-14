@@ -25,7 +25,8 @@ RUN apt-get update && \
     redis-server \
     nodejs \
     npm \
-    yarn && \
+    yarn \
+    nano && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/php/
