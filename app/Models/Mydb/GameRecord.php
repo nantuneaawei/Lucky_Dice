@@ -11,5 +11,5 @@ class GameRecord extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['player_id', 'bet_id', 'game_result'];
+    protected $fillable = ['player_id', 'bet_id', 'game_result', 'profit_loss'];
 }
