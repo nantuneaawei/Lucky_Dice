@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
             $table->string('bet_item');
             $table->string('game_result');
+            $table->decimal('profit_loss', 10, 2);
             $table->timestamps();
         });
     }
