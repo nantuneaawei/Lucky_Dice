@@ -2,20 +2,27 @@
 
 namespace App\Repositories\Mydb;
 
-use App\Models\Mydb\Player;
+use App\Models\Mydb\Player as PlayerModel;
 
 class GameRepository
 {
+    private $oPlayerModel;
+
+    public function __construct(PlayerModel $_oPlayerModel)
+    {
+        $this->oPlayerModel = $_oPlayerModel;
+    }
+
     /**
      * 根據玩家 ID 獲取玩家餘額
      *
-     * @param int $playerId
+     * @param int $_iPlayerId
      * @return int|null
      */
-    public function getPlayerBalance($playerId)
+    public function getPlayerBalance($_iPlayerId)
     {
-        $player = Player::find($playerId);
+        $iPlayer = $this->oPlayerModel::find($_iPlayerId);
 
-        return $player ? $player->balance : null;
+        return $iPlayer ? $iPlayer->balance : null;
     }
 }
