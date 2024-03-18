@@ -37,7 +37,27 @@ class GameServiceTest extends TestCase
             ->andReturn($iBalance);
 
         $iBetAmount = 300;
-        $result = $this->gameService->placeBet($iPlayerId, $iBetAmount);
-        $this->assertTrue($result);
+        $bResult = $this->gameService->placeBet($iPlayerId, $iBetAmount);
+        $this->assertTrue($bResult);
+    }
+    
+    /**
+     * testBetAmountExceedsBalance
+     * 下注金額大於玩家餘額
+     *
+     * @return void
+     */
+    public function testBetAmountExceedsBalance()
+    {
+        $iPlayerId = 1;
+        $iBalance = 500;
+
+        $this->gameRepository->shouldReceive('getPlayerBalance')
+            ->with($iPlayerId)
+            ->andReturn($iBalance);
+
+        $iBetAmount = 700;
+        $bResult = $this->gameService->placeBet($iPlayerId, $iBetAmount);
+        $this->assertFalse($bResult);
     }
 }
