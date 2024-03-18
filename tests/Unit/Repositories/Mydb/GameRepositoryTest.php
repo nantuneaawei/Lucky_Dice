@@ -11,13 +11,13 @@ class GameRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $gameRepository;
+    protected $oGameRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->gameRepository = new GameRepositories(new Player());
+        $this->oGameRepository = new GameRepositories(new Player());
     }
 
     /**
@@ -31,7 +31,7 @@ class GameRepositoryTest extends TestCase
 
         $iPlayerId = $oPlayer->id;
 
-        $iPlayerBalance = $this->gameRepository->getPlayerBalance($iPlayerId);
+        $iPlayerBalance = $this->oGameRepository->getPlayerBalance($iPlayerId);
 
         $this->assertEquals(1000, $iPlayerBalance);
     }
