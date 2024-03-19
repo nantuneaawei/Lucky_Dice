@@ -21,18 +21,19 @@ class PlayerTest extends TestCase
     }
 
     /**
-     * 測試根據玩家 ID 獲取玩家餘額是否正確
+     * 测试当给定的玩家 ID 存在时，方法返回 true
      *
      * @return void
      */
-    public function testGetPlayerBalanceById()
+    public function testHasPlayerReturnsTrueWhenPlayerExists()
     {
-        $oPlayer = Player::factory()->create(['balance' => 1000]);
+        // 创建一个玩家记录
+        $oPlayer = Player::factory()->create();
 
-        $iPlayerId = $oPlayer->id;
+        // 使用玩家 ID 调用方法
+        $bResult = $this->oPlayerRepositories->hasPlayer($oPlayer->id);
 
-        $iPlayerBalance = $this->oPlayerRepositories->getPlayerBalance($iPlayerId);
-
-        $this->assertEquals(1000, $iPlayerBalance);
+        // 断言返回值为 true
+        $this->assertTrue($bResult);
     }
 }

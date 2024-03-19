@@ -28,10 +28,10 @@ class BetTest extends TestCase
      */
     public function testHasBetsForPlayerReturnsFalseWhenNoBetsExist()
     {
-        $playerId = 1;
+        $iPlayerId = 1;
 
-        $result = $this->oBetRepositories->hasBetsForPlayer($playerId);
+        $bResult = $this->oBetRepositories->hasBetsForPlayer($iPlayerId);
 
-        $this->assertFalse($result);
+        $this->assertFalse($bResult);
     }
 }

@@ -14,15 +14,13 @@ class Player
     }
 
     /**
-     * 根據玩家 ID 獲取玩家餘額
+     * 檢查是否存在具有給定 ID 的玩家記錄
      *
      * @param int $_iPlayerId
-     * @return int|null
+     * @return bool
      */
-    public function getPlayerBalance($_iPlayerId)
+    public function hasPlayer($_iPlayerId)
     {
-        $iPlayer = $this->oPlayerModel::find($_iPlayerId);
-
-        return $iPlayer ? $iPlayer->balance : null;
+        return $this->oPlayerModel::where('id', $_iPlayerId)->exists();
     }
 }
