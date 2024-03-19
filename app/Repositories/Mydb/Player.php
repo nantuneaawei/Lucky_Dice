@@ -4,7 +4,7 @@ namespace App\Repositories\Mydb;
 
 use App\Models\Mydb\Player as PlayerModel;
 
-class GameRepository
+class Player
 {
     private $oPlayerModel;
 

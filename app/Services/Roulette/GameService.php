@@ -2,15 +2,15 @@
 
 namespace App\Services\Roulette;
 
-use App\Repositories\Mydb\GameRepository as GameRepositories;
+use App\Repositories\Mydb\Player as PlayerRepositories;
 
 class GameService
 {
-    private $oGameRepositories;
+    private $oPlayerRepositories;
 
-    public function __construct(GameRepositories $_oGameRepositories)
+    public function __construct(PlayerRepositories $_oPlayerRepositories)
     {
-        $this->oGameRepositories = $_oGameRepositories;
+        $this->oPlayerRepositories = $_oPlayerRepositories;
     }
 
     /**
@@ -22,7 +22,7 @@ class GameService
      */
     public function placeBet($_iPlayerId, $_iBetAmount)
     {
-        $iPlayerBalance = $this->oGameRepositories->getPlayerBalance($_iPlayerId);
+        $iPlayerBalance = $this->oPlayerRepositories->getPlayerBalance($_iPlayerId);
 
         if ($_iBetAmount <= $iPlayerBalance) {
             return true;

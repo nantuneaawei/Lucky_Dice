@@ -3,21 +3,21 @@
 namespace Tests\Unit\Repositories;
 
 use App\Models\Mydb\Player;
-use App\Repositories\Mydb\GameRepository as GameRepositories;
+use App\Repositories\Mydb\Player as PlayerRepositories;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GameRepositoryTest extends TestCase
+class PlayerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $oGameRepository;
+    protected $oPlayerRepositories;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->oGameRepository = new GameRepositories(new Player());
+        $this->oPlayerRepositories = new PlayerRepositories(new Player());
     }
 
     /**
@@ -31,7 +31,7 @@ class GameRepositoryTest extends TestCase
 
         $iPlayerId = $oPlayer->id;
 
-        $iPlayerBalance = $this->oGameRepository->getPlayerBalance($iPlayerId);
+        $iPlayerBalance = $this->oPlayerRepositories->getPlayerBalance($iPlayerId);
 
         $this->assertEquals(1000, $iPlayerBalance);
     }

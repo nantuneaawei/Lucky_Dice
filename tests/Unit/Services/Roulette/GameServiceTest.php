@@ -3,22 +3,22 @@
 namespace Tests\Unit\Services\Roulette;
 
 use App\Services\Roulette\GameService;
-use App\Repositories\Mydb\GameRepository;
+use App\Repositories\Mydb\Player as PlayerReositories;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class GameServiceTest extends TestCase
 {
-    private $gameService;
-    private $gameRepository;
+    private $oGameService;
+    private $oPlayerRepository;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->gameRepository = Mockery::mock(GameRepository::class);
+        $this->oPlayerRepository = Mockery::mock(PlayerReositories::class);
 
-        $this->gameService = new GameService($this->gameRepository);
+        $this->oGameService = new GameService($this->oPlayerRepository);
     }
 
     /**
@@ -32,12 +32,12 @@ class GameServiceTest extends TestCase
         $iPlayerId = 1;
         $iBalance = 500;
 
-        $this->gameRepository->shouldReceive('getPlayerBalance')
+        $this->oPlayerRepository->shouldReceive('getPlayerBalance')
             ->with($iPlayerId)
             ->andReturn($iBalance);
 
         $iBetAmount = 300;
-        $bResult = $this->gameService->placeBet($iPlayerId, $iBetAmount);
+        $bResult = $this->oGameService->placeBet($iPlayerId, $iBetAmount);
         $this->assertTrue($bResult);
     }
     
@@ -52,12 +52,12 @@ class GameServiceTest extends TestCase
         $iPlayerId = 1;
         $iBalance = 500;
 
-        $this->gameRepository->shouldReceive('getPlayerBalance')
+        $this->oPlayerRepository->shouldReceive('getPlayerBalance')
             ->with($iPlayerId)
             ->andReturn($iBalance);
 
         $iBetAmount = 700;
-        $bResult = $this->gameService->placeBet($iPlayerId, $iBetAmount);
+        $bResult = $this->oGameService->placeBet($iPlayerId, $iBetAmount);
         $this->assertFalse($bResult);
     }
 }
