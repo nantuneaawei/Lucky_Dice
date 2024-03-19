@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
             $table->decimal('balance', 10, 2)->default(0.00);
             $table->timestamps();
