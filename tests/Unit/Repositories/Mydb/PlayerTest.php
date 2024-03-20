@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repositories;
+namespace Tests\Unit\Repositories\Mydb;
 
 use App\Models\Mydb\Player;
 use App\Repositories\Mydb\Player as PlayerRepositories;
@@ -21,7 +21,7 @@ class PlayerTest extends TestCase
     }
 
     /**
-     * 測試當玩家 ID 存在
+     * 測試當玩家 ID 存在 Player
      *
      * 回傳 true
      * @return void
@@ -36,7 +36,7 @@ class PlayerTest extends TestCase
     }
     
     /**
-     * 測試當玩家 ID 不存在
+     * 測試當玩家 ID 不存在 Player
      *
      * 回傳 false
      * @return void

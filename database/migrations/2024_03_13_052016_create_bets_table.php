@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('player_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('player_id');
             $table->unsignedBigInteger('bet_id');
             $table->string('bet_type');
             $table->string('bet_content');
@@ -24,7 +24,7 @@ return new class extends Migration
         });
 
         Schema::table('bets', function (Blueprint $table) {
-            $table->foreign('bet_id')->references('id')->on('bets')->onDelete('cascade');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
 
     }

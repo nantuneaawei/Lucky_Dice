@@ -22,7 +22,7 @@ class BetTest extends TestCase
 
     
     /**
-     * 測試根據 ID 查詢是否有下注紀錄
+     * 測試當玩家 ID 不存在 Bet
      *
      * @return void
      */
@@ -33,5 +33,20 @@ class BetTest extends TestCase
         $bResult = $this->oBetRepositories->hasBetsForPlayer($iPlayerId);
 
         $this->assertFalse($bResult);
+    }
+
+    /**
+     * 測試當玩家 ID 存在 Bet
+     * 
+     *
+     * @return void
+     */
+    public function testHasBetsForPlayerReturnstrueWhenBetsExist()
+    {
+        $oPlayer = Bet::factory()->create();
+
+        $bResult = $this->oBetRepositories->hasBetsForPlayer($oPlayer->id);
+
+        $this->assertTrue($bResult);
     }
 }
