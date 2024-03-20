@@ -21,19 +21,32 @@ class PlayerTest extends TestCase
     }
 
     /**
-     * 测试当给定的玩家 ID 存在时，方法返回 true
+     * 測試當玩家 ID 存在
      *
+     * 回傳 true
      * @return void
      */
     public function testHasPlayerReturnsTrueWhenPlayerExists()
     {
-        // 创建一个玩家记录
         $oPlayer = Player::factory()->create();
 
-        // 使用玩家 ID 调用方法
         $bResult = $this->oPlayerRepositories->hasPlayer($oPlayer->id);
 
-        // 断言返回值为 true
         $this->assertTrue($bResult);
+    }
+    
+    /**
+     * 測試當玩家 ID 不存在
+     *
+     * 回傳 false
+     * @return void
+     */
+    public function testHasPlayerReturnsFalseWhenPlayerNotExists()
+    {
+        $iId = 999;
+        
+        $bResult = $this->oPlayerRepositories->hasPlayer($iId);
+
+        $this->assertFalse($bResult);
     }
 }
