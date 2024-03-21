@@ -27,7 +27,7 @@ class Bet
     
     /**
      * addBetRecords
-     * 新增下注紀錄
+     * 新增單個下注紀錄
      *
      * @param  array $_aBets
      * @return void

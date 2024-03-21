@@ -52,7 +52,7 @@ class BetTest extends TestCase
     }
 
     /**
-     * 測試新增下注紀錄
+     * 測試新增單個下注紀錄
      *
      * @group bet
      * @return void
