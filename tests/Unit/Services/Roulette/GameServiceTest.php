@@ -82,7 +82,7 @@ class GameServiceTest extends TestCase
     /**
      * testAddMultipleBetRecords
      * 新增多筆下注紀錄
-     *
+     * 下注兩筆
      * @group game
      * @return void
      */
@@ -103,6 +103,39 @@ class GameServiceTest extends TestCase
                 'bet_content' => 'red',
                 'bet_amount' => 200,
             ],
+        ];
+
+        $this->oBetRepository->shouldReceive('addBetRecord')
+            ->times(count($aBets))
+            ->with(Mockery::on(function ($bet) {
+                return isset($bet['player_id']) && isset($bet['bet_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
+            }))
+            ->andReturn(true);
+
+        $bActual = $this->oGameService->addMultipleBetRecords($aBets);
+
+        $bExpected = true;
+
+        $this->assertEquals($bExpected, $bActual);
+    }
+
+    /**
+     * testAddMultipleBetRecords
+     * 新增多筆下注紀錄
+     * 當只有一筆下注
+     * @group game
+     * @return void
+     */
+    public function testAddMultipleBetRecords2()
+    {
+        $aBets = [
+            [
+                'player_id' => 1,
+                'bet_id' => 1,
+                'bet_type' => 'number',
+                'bet_content' => '5',
+                'bet_amount' => 100,
+            ]
         ];
 
         $this->oBetRepository->shouldReceive('addBetRecord')
