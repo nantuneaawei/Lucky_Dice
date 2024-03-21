@@ -33,7 +33,9 @@ class BetTest extends TestCase
 
         $bResult = $this->oBetRepositories->hasBetsForPlayer($iPlayerId);
 
-        $this->assertFalse($bResult);
+        $bExpected = false;
+
+        $this->assertEquals($bExpected, $bResult);
     }
 
     /**
@@ -48,7 +50,9 @@ class BetTest extends TestCase
 
         $bResult = $this->oBetRepositories->hasBetsForPlayer($oPlayer->id);
 
-        $this->assertTrue($bResult);
+        $bExpected = true;
+
+        $this->assertEquals($bExpected, $bResult);
     }
 
     /**

@@ -32,7 +32,9 @@ class PlayerTest extends TestCase
 
         $bResult = $this->oPlayerRepositories->hasPlayer($oPlayer->id);
 
-        $this->assertTrue($bResult);
+        $bExpected = true;
+
+        $this->assertEquals($bExpected, $bResult);
     }
 
     /**
@@ -47,7 +49,9 @@ class PlayerTest extends TestCase
 
         $bResult = $this->oPlayerRepositories->hasPlayer($iId);
 
-        $this->assertFalse($bResult);
+        $bExpected = false;
+
+        $this->assertEquals($bExpected, $bResult);
     }
     
     /**
