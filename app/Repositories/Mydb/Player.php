@@ -23,4 +23,15 @@ class Player
     {
         return $this->oPlayerModel::where('id', $_iPlayerId)->exists();
     }
+    
+    /**
+     * 查詢玩家餘額
+     *
+     * @param  int $_iPlayerId
+     * @return void
+     */
+    public function getPlayerBalance($_iPlayerId)
+    {
+        return $this->oPlayerModel::find($_iPlayerId)->balance;
+    }
 }

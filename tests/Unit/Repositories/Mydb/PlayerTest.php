@@ -23,7 +23,7 @@ class PlayerTest extends TestCase
     /**
      * 測試當玩家 ID 存在 Player
      *
-     * 回傳 true
+     * @group player
      * @return void
      */
     public function testHasPlayerReturnsTrueWhenPlayerExists()
@@ -34,19 +34,36 @@ class PlayerTest extends TestCase
 
         $this->assertTrue($bResult);
     }
-    
+
     /**
      * 測試當玩家 ID 不存在 Player
      *
-     * 回傳 false
+     * @group player
      * @return void
      */
     public function testHasPlayerReturnsFalseWhenPlayerNotExists()
     {
         $iId = 999;
-        
+
         $bResult = $this->oPlayerRepositories->hasPlayer($iId);
 
         $this->assertFalse($bResult);
+    }
+    
+    /**
+     * 測試根據 ID 取得玩家餘額
+     *
+     * @group player
+     * @return void
+     */
+    public function testGetPlayerBalanceById()
+    {
+        $oPlayer = Player::factory()->create(['balance' => 1000]);
+
+        $iPlayerId = $oPlayer->id;
+
+        $iPlayerBalance = $this->oPlayerRepositories->getPlayerBalance($iPlayerId);
+
+        $this->assertEquals(1000, $iPlayerBalance);
     }
 }
