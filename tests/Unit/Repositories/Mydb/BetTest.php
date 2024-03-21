@@ -3,6 +3,7 @@
 namespace Tests\Unit\Repositories\Mydb;
 
 use App\Models\Mydb\Bet;
+use App\Models\Mydb\Player;
 use App\Repositories\Mydb\Bet as BetRepositories;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,10 +21,10 @@ class BetTest extends TestCase
         $this->oBetRepositories = new BetRepositories(new Bet());
     }
 
-    
     /**
      * 測試當玩家 ID 不存在 Bet
      *
+     * @group bet
      * @return void
      */
     public function testHasBetsForPlayerReturnsFalseWhenNoBetsExist()
@@ -37,8 +38,8 @@ class BetTest extends TestCase
 
     /**
      * 測試當玩家 ID 存在 Bet
-     * 
      *
+     * @group bet
      * @return void
      */
     public function testHasBetsForPlayerReturnstrueWhenBetsExist()
@@ -48,5 +49,30 @@ class BetTest extends TestCase
         $bResult = $this->oBetRepositories->hasBetsForPlayer($oPlayer->id);
 
         $this->assertTrue($bResult);
+    }
+
+    /**
+     * 測試新增下注紀錄
+     *
+     * @group bet
+     * @return void
+     */
+    public function testAddBetRecord()
+    {
+        $oPlayer = Player::factory()->create();
+
+        $aBets = [
+            'player_id' => $oPlayer->id,
+            'bet_id' => 1,
+            'bet_type' => 'number',
+            'bet_content' => '5',
+            'bet_amount' => 100,
+        ];
+
+        $bResult = $this->oBetRepositories->addBetRecord($aBets)->exists;
+
+        $bExpected = true;
+
+        $this->assertEquals($bExpected, $bResult);
     }
 }
