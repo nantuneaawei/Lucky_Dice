@@ -6,30 +6,22 @@ use Illuminate\Support\Facades\Config;
 
 class RouletteService
 {
-    protected $aProbabilities;
+    protected $aSet;
 
     public function __construct()
     {
-        $this->aProbabilities = Config::get('wheel');
+        $this->aSet = Config::get('wheel');
     }
-    
+
     /**
      * getResult
      *
-     * @return void
+     * @return int|null
      */
     public function getResult()
     {
-        $iRandomNumber = mt_rand(1, 100) / 100;
-        $iCumulativeProbability = 0;
+        $iRandomIndex = mt_rand(0, count($this->aSet) - 1);
 
-        foreach ($this->aProbabilities as $iResult => $iProbability) {
-            $iCumulativeProbability += $iProbability;
-            if ($iRandomNumber <= $iCumulativeProbability) {
-                return $iResult;
-            }
-        }
-
-        return null;
+        return $this->aSet[$iRandomIndex];
     }
 }

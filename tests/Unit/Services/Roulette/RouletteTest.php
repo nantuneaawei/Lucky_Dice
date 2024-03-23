@@ -9,47 +9,41 @@ use Tests\TestCase;
 
 class RouletteTest extends TestCase
 {
-    private $oRouletteService;
-    private $oRouletteMock;
-
-    protected $aProbabilities = [
-        0 => 20,
-        1 => 10,
-        2 => 10,
-        3 => 10,
-        4 => 10,
-        5 => 10,
-        6 => 10,
-        7 => 10,
-        8 => 10,
+    protected $aWheel = [
+        0, 5, 10, 15, 20, 25, 30, 35
     ];
 
     public function setUp(): void
     {
         parent::setUp();
 
-        Config::set('wheel', $this->aProbabilities);
-
-        $this->oRouletteService = new RouletteService($this->aProbabilities);
-
-        $this->oRouletteMock = Mockery::mock(RouletteService::class);
+        Config::set('wheel', $this->aWheel);
+    }
+            
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     /**
-     * testGetResultMatchesExpectation
+     * Test getResult method with custom data.
      *
      * @group roulette
      * @return void
      */
-    public function testGetResultMatchesExpectation()
+    public function testGetResultWithCustomData()
     {
-        $this->oRouletteMock->shouldReceive('getResult')->andReturn(1);
+        $iMockedRandomNumber = 2;
 
-        $iActual = $this->oRouletteMock->getResult();
+        $oRouletteService = Mockery::mock(RouletteService::class);
+        $oRouletteService->shouldReceive('getResult')->andReturnUsing(function () use ($iMockedRandomNumber) {
+            return $this->aWheel[$iMockedRandomNumber];
+        });
 
-        $iExpected = 1;
+        $iActual = $oRouletteService->getResult();
+
+        $iExpected = 10;
 
         $this->assertEquals($iExpected, $iActual);
     }
-
 }
