@@ -2,6 +2,7 @@
 
 namespace App\Services\Roulette;
 
+use App\Support\Facades\Random;
 use Illuminate\Support\Facades\Config;
 
 class RouletteService
@@ -10,18 +11,13 @@ class RouletteService
 
     public function __construct()
     {
-        $this->aSet = Config::get('wheel');
+        $this->aSet = Config::get('RouletteSet.wheel');
     }
 
-    /**
-     * getResult
-     *
-     * @return int|null
-     */
-    public function getResult()
+    public function getRandom()
     {
-        $iRandomIndex = mt_rand(0, count($this->aSet) - 1);
-
-        return $this->aSet[$iRandomIndex];
+        $iMin = 0;
+        $iMax = count($this->aSet) - 1;
+        return Random::rand($iMin, $iMax);
     }
 }

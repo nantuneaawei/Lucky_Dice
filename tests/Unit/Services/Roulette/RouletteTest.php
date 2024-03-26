@@ -3,47 +3,49 @@
 namespace Tests\Unit\Services\Roulette;
 
 use App\Services\Roulette\RouletteService;
+use App\Foundation\RandomTest;
 use Illuminate\Support\Facades\Config;
-use Mockery;
 use Tests\TestCase;
+use App\Support\Facades\Facade;
 
 class RouletteTest extends TestCase
-{
-    protected $aWheel = [
-        0, 5, 10, 15, 20, 25, 30, 35
-    ];
-
+{    
+    /**
+     * Set up the test environment.
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         parent::setUp();
 
-        Config::set('wheel', $this->aWheel);
-    }
-            
-    public function tearDown(): void
-    {
-        Mockery::close();
+        // 清除 Facade 解析的实例，设置 Random Facade 的模拟实例
+        Facade::clearResolvedInstances();
+        $aFacades['Random'] = new RandomTest();
+        Facade::setFacadeApplication($aFacades);
     }
 
     /**
-     * Test getResult method with custom data.
+     * Test getRandom method of RouletteService.
      *
-     * @group roulette
+     * @group random1
      * @return void
      */
-    public function testGetResultWithCustomData()
+    public function testGetRandom()
     {
-        $iMockedRandomNumber = 2;
+        $wheelConfig = [0, 5, 10, 15, 20, 25, 30, 35];
+        Config::shouldReceive('get')
+            ->with('RouletteSet.wheel')
+            ->andReturn($wheelConfig);
 
-        $oRouletteService = Mockery::mock(RouletteService::class);
-        $oRouletteService->shouldReceive('getResult')->andReturnUsing(function () use ($iMockedRandomNumber) {
-            return $this->aWheel[$iMockedRandomNumber];
-        });
+        $oMock = \Mockery::mock(RandomTest::class);
+        $oMock->shouldReceive('rand')
+            ->andReturn(5);
+        RandomTest::$oMock = $oMock;
 
-        $iActual = $oRouletteService->getResult();
+        $rouletteService = new RouletteService();
+        $result = $rouletteService->getRandom();
 
-        $iExpected = 10;
-
-        $this->assertEquals($iExpected, $iActual);
+        $this->assertEquals(5, $result);
     }
 }
