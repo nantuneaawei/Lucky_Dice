@@ -7,9 +7,17 @@ use App\Foundation\RandomTest;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 use App\Support\Facades\Facade;
+use Mockery;
 
 class RouletteTest extends TestCase
-{    
+{
+    protected function setRandomMock($returnValue)
+    {
+        $mock = Mockery::mock(RandomTest::class);
+        $mock->shouldReceive('rand')->andReturn($returnValue);
+        RandomTest::$oMock = $mock;
+    }
+
     /**
      * Set up the test environment.
      *
@@ -19,33 +27,43 @@ class RouletteTest extends TestCase
     {
         parent::setUp();
 
-        // 清除 Facade 解析的实例，设置 Random Facade 的模拟实例
+        // 清除 Facade 解析的實例，設置 Random Facade 的模擬實例
         Facade::clearResolvedInstances();
-        $aFacades['Random'] = new RandomTest();
-        Facade::setFacadeApplication($aFacades);
+        Facade::setFacadeApplication([
+            'Random' => new RandomTest(),
+        ]);
     }
 
     /**
      * Test getRandom method of RouletteService.
      *
      * @group random1
-     * @return void
+     * @dataProvider getRandomData
+     * @param int $expected
      */
-    public function testGetRandom()
+    public function testGetRandom($expected)
     {
-        $wheelConfig = [0, 5, 10, 15, 20, 25, 30, 35];
-        Config::shouldReceive('get')
-            ->with('RouletteSet.wheel')
-            ->andReturn($wheelConfig);
+        $this->setRandomMock($expected);
 
-        $oMock = \Mockery::mock(RandomTest::class);
-        $oMock->shouldReceive('rand')
-            ->andReturn(5);
-        RandomTest::$oMock = $oMock;
+        $wheelConfig = [0, 5, 10, 15, 20, 25, 30, 35];
+        Config::shouldReceive('get')->with('RouletteSet.wheel')->andReturn($wheelConfig);
 
         $rouletteService = new RouletteService();
         $result = $rouletteService->getRandom();
 
-        $this->assertEquals(5, $result);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetRandom method.
+     *
+     * @return array
+     */
+    public static function getRandomData()
+    {
+        return [
+            [5],
+            [10],
+        ];
     }
 }
