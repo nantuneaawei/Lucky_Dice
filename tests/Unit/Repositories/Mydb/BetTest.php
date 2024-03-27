@@ -102,4 +102,35 @@ class BetTest extends TestCase
         $this->assertNotNull($aBetRecord);
         $this->assertEquals($oBetRecord->id, $aBetRecord->id);
     }
+
+    /**
+     * 測試更新下注紀錄
+     *
+     * @group bet
+     * @return void
+     */
+    public function testUpdateBetRecord()
+    {
+        $oPlayer = Player::factory()->create();
+        $oBetRecord = Bet::factory()->create([
+            'player_id' => $oPlayer->id,
+            'bet_id' => 1,
+            'bet_type' => 'number',
+            'bet_content' => '5',
+            'bet_amount' => 100,
+        ]);
+
+
+        $aData = [
+            'game_result' => 1,
+            'profit_loss' => -1000,
+        ];
+
+        $result = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->bet_id, $aData);
+
+        $updatedBetRecord = Bet::find($oBetRecord->id);
+
+        $this->assertEquals($aData['game_result'], $updatedBetRecord->game_result);
+        $this->assertEquals($aData['profit_loss'], $updatedBetRecord->profit_loss);
+    }
 }

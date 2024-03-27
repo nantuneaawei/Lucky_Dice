@@ -56,4 +56,21 @@ class Bet
             ->where('bet_id', $_iBetId)
             ->first();
     }
+
+    /**
+     * 更新下注紀錄
+     *
+     * @param int $_iBetId
+     * @param int $_iPlayerId
+     * @param array $_aData
+     * @return bool
+     */
+    public function updateBetRecord($_iPlayerId, $_iBetId, $_aData)
+    {
+        return $this->oBetModel::where('player_id', $_iPlayerId)
+            ->where('bet_id', $_iBetId)
+            ->update($_aData);
+    }
+
+
 }
