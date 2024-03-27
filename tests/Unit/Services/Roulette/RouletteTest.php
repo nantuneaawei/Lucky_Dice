@@ -35,13 +35,14 @@ class RouletteTest extends TestCase
     }
 
     /**
-     * TestgenerateRoulette
+     * Test generateRoulette
      *
      * @group random1
      * @dataProvider getRandomData
-     * @param int $expected
+     * @param int $iMockRandom
+     * @param array $aExpected
      */
-    public function testgenerateRoulette($iMockRandom, $iExpected)
+    public function testgenerateRoulette($iMockRandom, $aExpected)
     {
         $this->setRandomMock($iMockRandom);
 
@@ -49,9 +50,11 @@ class RouletteTest extends TestCase
         Config::shouldReceive('get')->with('RouletteSet.wheel')->andReturn($aWheelConfig);
 
         $oRouletteService = new RouletteService();
-        $iResult = $oRouletteService->generateRoulette();
+        $aResult = $oRouletteService->generateRoulette();
 
-        $this->assertEquals($iExpected, $iResult);
+        $this->assertEquals($aExpected['result'], $aResult['result']);
+        $this->assertEquals($aExpected['details']['odd_even'], $aResult['details']['odd_even']);
+        $this->assertEquals($aExpected['details']['color'], $aResult['details']['color']);
     }
 
     /**
@@ -62,8 +65,8 @@ class RouletteTest extends TestCase
     public static function getRandomData()
     {
         return [
-            [0, 0],
-            [1, 5],
+            [0, ['result' => 0, 'details' => ['odd_even' => '偶數', 'color' => '綠色']]],
+            [1, ['result' => 5, 'details' => ['odd_even' => '奇數', 'color' => '紅色']]],
         ];
     }
 }

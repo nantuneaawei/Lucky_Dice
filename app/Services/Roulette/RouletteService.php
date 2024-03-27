@@ -18,7 +18,14 @@ class RouletteService
     {
         $iRandom = $this->getRandom();
 
-        return $this->aSet[$iRandom];
+        $iResult = $this->aSet[$iRandom];
+
+        $aResultDetails = $this->getResultDetails($iResult);
+
+        return [
+            'result' => $iResult,
+            'details' => $aResultDetails,
+        ];
     }
 
     private function getRandom()
@@ -26,5 +33,16 @@ class RouletteService
         $iMin = 0;
         $iMax = count($this->aSet) - 1;
         return Random::rand($iMin, $iMax);
+    }
+
+    private function getResultDetails($_iResult)
+    {
+        $sOddEven = ($_iResult % 2 === 0) ? '偶數' : '奇數';
+        $sColor = ($_iResult === 0) ? '綠色' : (($_iResult % 2 === 1) ? '紅色' : '黑色');
+
+        return [
+            'odd_even' => $sOddEven,
+            'color' => $sColor,
+        ];
     }
 }
