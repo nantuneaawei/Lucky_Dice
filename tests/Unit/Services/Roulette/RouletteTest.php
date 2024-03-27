@@ -11,11 +11,11 @@ use Mockery;
 
 class RouletteTest extends TestCase
 {
-    protected function setRandomMock($returnValue)
+    protected function setRandomMock($iReturnValue)
     {
-        $mock = Mockery::mock(RandomTest::class);
-        $mock->shouldReceive('rand')->andReturn($returnValue);
-        RandomTest::$oMock = $mock;
+        $oMock = Mockery::mock(RandomTest::class);
+        $oMock->shouldReceive('rand')->andReturn($iReturnValue);
+        RandomTest::$oMock = $oMock;
     }
 
     /**
@@ -35,23 +35,23 @@ class RouletteTest extends TestCase
     }
 
     /**
-     * Test getRandom method of RouletteService.
+     * TestgenerateRoulette
      *
      * @group random1
      * @dataProvider getRandomData
      * @param int $expected
      */
-    public function testGetRandom($expected)
+    public function testgenerateRoulette($iMockRandom, $iExpected)
     {
-        $this->setRandomMock($expected);
+        $this->setRandomMock($iMockRandom);
 
-        $wheelConfig = [0, 5, 10, 15, 20, 25, 30, 35];
-        Config::shouldReceive('get')->with('RouletteSet.wheel')->andReturn($wheelConfig);
+        $aWheelConfig = [0, 5, 10, 15, 20, 25, 30, 35];
+        Config::shouldReceive('get')->with('RouletteSet.wheel')->andReturn($aWheelConfig);
 
-        $rouletteService = new RouletteService();
-        $result = $rouletteService->getRandom();
+        $oRouletteService = new RouletteService();
+        $iResult = $oRouletteService->generateRoulette();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($iExpected, $iResult);
     }
 
     /**
@@ -62,8 +62,8 @@ class RouletteTest extends TestCase
     public static function getRandomData()
     {
         return [
-            [5],
-            [10],
+            [0, 0],
+            [1, 5],
         ];
     }
 }

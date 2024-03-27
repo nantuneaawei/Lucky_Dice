@@ -14,7 +14,14 @@ class RouletteService
         $this->aSet = Config::get('RouletteSet.wheel');
     }
 
-    public function getRandom()
+    public function generateRoulette()
+    {
+        $iRandom = $this->getRandom();
+
+        return $this->aSet[$iRandom];
+    }
+
+    private function getRandom()
     {
         $iMin = 0;
         $iMax = count($this->aSet) - 1;
