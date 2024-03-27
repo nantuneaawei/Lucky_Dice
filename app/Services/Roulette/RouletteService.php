@@ -13,7 +13,13 @@ class RouletteService
     {
         $this->aSet = Config::get('RouletteSet.wheel');
     }
-
+    
+    /**
+     * generateRoulette
+     *
+     * 生產輪盤結果
+     * @return array
+     */
     public function generateRoulette()
     {
         $iRandom = $this->getRandom();
@@ -27,14 +33,27 @@ class RouletteService
             'details' => $aResultDetails,
         ];
     }
-
+    
+    /**
+     * getRandom
+     *
+     * 生成隨機數
+     * @return int
+     */
     private function getRandom()
     {
         $iMin = 0;
         $iMax = count($this->aSet) - 1;
         return Random::rand($iMin, $iMax);
     }
-
+    
+    /**
+     * getResultDetails
+     *
+     * 生成詳細結果
+     * @param  int $_iResult
+     * @return array
+     */
     private function getResultDetails($_iResult)
     {
         $sOddEven = ($_iResult % 2 === 0) ? '偶數' : '奇數';
