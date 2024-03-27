@@ -135,7 +135,7 @@ class GameServiceTest extends TestCase
                 'bet_type' => 'number',
                 'bet_content' => '5',
                 'bet_amount' => 100,
-            ]
+            ],
         ];
 
         $this->oBetRepository->shouldReceive('addBetRecord')

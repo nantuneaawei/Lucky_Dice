@@ -27,11 +27,11 @@ class BetFactory extends Factory
                 break;
         }
 
-        $nextBetId = Bet::max('bet_id') + 1;
+        $iNextBetId = Bet::max('bet_id') + 1;
 
         return [
             'player_id' => Player::factory()->create()->id,
-            'bet_id' => $nextBetId,
+            'bet_id' => $iNextBetId,
             'bet_type' => $sBetType,
             'bet_content' => $mBetContent,
             'bet_amount' => $this->faker->numberBetween(10, 1000),

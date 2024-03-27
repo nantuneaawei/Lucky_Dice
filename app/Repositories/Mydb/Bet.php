@@ -12,7 +12,7 @@ class Bet
     {
         $this->oBetModel = $_oBetModel;
     }
-    
+
     /**
      * hasBetsForPlayer
      * 根據 ID 查詢有無下注紀錄
@@ -24,7 +24,7 @@ class Bet
     {
         return $this->oBetModel::where('player_id', $_iPlayerId)->exists();
     }
-    
+
     /**
      * addBetRecords
      * 新增單個下注紀錄

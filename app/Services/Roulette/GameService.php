@@ -2,8 +2,8 @@
 
 namespace App\Services\Roulette;
 
-use App\Repositories\Mydb\Player as PlayerRepositories;
 use App\Repositories\Mydb\Bet as BetRepositories;
+use App\Repositories\Mydb\Player as PlayerRepositories;
 
 class GameService
 {

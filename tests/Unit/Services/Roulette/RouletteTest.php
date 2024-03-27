@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Services\Roulette;
 
-use App\Services\Roulette\RouletteService;
 use App\Foundation\RandomTest;
-use Illuminate\Support\Facades\Config;
-use Tests\TestCase;
+use App\Services\Roulette\RouletteService;
 use App\Support\Facades\Facade;
+use Illuminate\Support\Facades\Config;
 use Mockery;
+use Tests\TestCase;
 
 class RouletteTest extends TestCase
 {

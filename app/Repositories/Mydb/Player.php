@@ -23,7 +23,7 @@ class Player
     {
         return $this->oPlayerModel::where('id', $_iPlayerId)->exists();
     }
-    
+
     /**
      * 查詢玩家餘額
      *
