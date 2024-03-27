@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('bets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('player_id');
-            $table->unsignedBigInteger('bet_id');
-            $table->string('bet_type');
-            $table->string('bet_content');
-            $table->decimal('bet_amount', 10, 2);
-            $table->string('game_result')->nullable();
-            $table->decimal('profit_loss', 10, 2)->nullable();
+            $table->unsignedBigInteger('player_id')->comment('玩家ID');
+            $table->unsignedBigInteger('bet_id')->comment('注單ID');
+            $table->string('bet_type')->comment('下注類型');
+            $table->string('bet_content')->comment('下注內容');
+            $table->decimal('bet_amount', 10, 2)->comment('下注金額');
+            $table->string('game_result')->nullable()->comment('遊戲結果');
+            $table->decimal('profit_loss', 10, 2)->nullable()->comment('損益結果');
             $table->timestamps();
         });
 
