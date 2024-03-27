@@ -79,4 +79,27 @@ class BetTest extends TestCase
 
         $this->assertEquals($bExpected, $bResult);
     }
+    
+    /**
+     * 測試根據玩家ID和注單ID查詢下注紀錄
+     *
+     * @group bet
+     * @return void
+     */
+    public function testgetBetRecord()
+    {
+        $oPlayer = Player::factory()->create();
+        $oBetRecord = Bet::factory()->create([
+            'player_id' => $oPlayer->id,
+            'bet_id' => 1,
+            'bet_type' => 'number',
+            'bet_content' => '5',
+            'bet_amount' => 100,
+        ]);
+
+        $aBetRecord = $this->oBetRepositories->getBetRecord($oPlayer->id, $oBetRecord->bet_id);
+
+        $this->assertNotNull($aBetRecord);
+        $this->assertEquals($oBetRecord->id, $aBetRecord->id);
+    }
 }

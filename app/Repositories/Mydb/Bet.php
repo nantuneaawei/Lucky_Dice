@@ -42,4 +42,18 @@ class Bet
             'bet_amount' => $_aBets['bet_amount'],
         ]);
     }
+
+    /**
+     * 根據玩家ID和注單ID查詢下注紀錄
+     *
+     * @param int $_iPlayerId
+     * @param int $_iBetId
+     * @return array|null
+     */
+    public function getBetRecord($_iPlayerId, $_iBetId)
+    {
+        return $this->oBetModel::where('player_id', $_iPlayerId)
+            ->where('bet_id', $_iBetId)
+            ->first();
+    }
 }
