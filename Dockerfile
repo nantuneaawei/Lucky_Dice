@@ -5,6 +5,18 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y \
     sudo \
+    curl \
+    wget \
+    build-essential \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm@10.5.0
+
+RUN apt-get update && \
+    apt-get install -y \
     nginx \
     php-fpm \
     php8.1 \
@@ -23,11 +35,7 @@ RUN apt-get update && \
     composer \
     mysql-client \
     redis-server \
-    nodejs \
-    npm \
-    yarn \
-    nano && \
-    rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/php/
 
