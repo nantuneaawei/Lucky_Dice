@@ -126,10 +126,13 @@ class BetTest extends TestCase
             'profit_loss' => -1000,
         ];
 
-        $result = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->bet_id, $aData);
+        $bExpected = true;
+        
+        $bResult = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->bet_id, $aData);
 
         $updatedBetRecord = Bet::find($oBetRecord->id);
 
+        $this->assertEquals($bExpected, $bResult);
         $this->assertEquals($aData['game_result'], $updatedBetRecord->game_result);
         $this->assertEquals($aData['profit_loss'], $updatedBetRecord->profit_loss);
     }

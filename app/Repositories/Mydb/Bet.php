@@ -67,9 +67,11 @@ class Bet
      */
     public function updateBetRecord($_iPlayerId, $_iBetId, $_aData)
     {
-        return $this->oBetModel::where('player_id', $_iPlayerId)
+        $iAffectedRows = $this->oBetModel::where('player_id', $_iPlayerId)
             ->where('bet_id', $_iBetId)
             ->update($_aData);
+
+        return $iAffectedRows > 0;
     }
 
 
