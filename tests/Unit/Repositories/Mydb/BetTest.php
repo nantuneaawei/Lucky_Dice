@@ -79,7 +79,7 @@ class BetTest extends TestCase
 
         $this->assertEquals($bExpected, $bResult);
     }
-    
+
     /**
      * 測試根據玩家ID和注單ID查詢下注紀錄
      *
@@ -112,28 +112,32 @@ class BetTest extends TestCase
     public function testUpdateBetRecord()
     {
         $oPlayer = Player::factory()->create();
-        $oBetRecord = Bet::factory()->create([
+        $oBetRecord = Bet::factory(3)->create([
             'player_id' => $oPlayer->id,
             'bet_id' => 1,
             'bet_type' => 'number',
-            'bet_content' => '5',
+            'bet_content' => rand(0, 36),
             'bet_amount' => 100,
         ]);
 
-
         $aData = [
-            'game_result' => 1,
-            'profit_loss' => -1000,
+            'game_result' => 0,
+            'profit_loss' => -100,
         ];
 
         $bExpected = true;
-        
-        $bResult = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->bet_id, $aData);
 
-        $updatedBetRecord = Bet::find($oBetRecord->id);
+        $bResult = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->first()->bet_id, $aData);
+
+        $oUpdatedBetRecords = Bet::where('player_id', $oPlayer->id)
+            ->where('bet_id', $oBetRecord->first()->bet_id)
+            ->get();
 
         $this->assertEquals($bExpected, $bResult);
-        $this->assertEquals($aData['game_result'], $updatedBetRecord->game_result);
-        $this->assertEquals($aData['profit_loss'], $updatedBetRecord->profit_loss);
+        
+        foreach ($oUpdatedBetRecords as $oUpdatedRecord) {
+            $this->assertEquals($aData['game_result'], $oUpdatedRecord->game_result);
+            $this->assertEquals($aData['profit_loss'], $oUpdatedRecord->profit_loss);
+        }
     }
 }
