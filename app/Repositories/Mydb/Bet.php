@@ -58,7 +58,7 @@ class Bet
     }
 
     /**
-     * 更新下注紀錄
+     * 更新下注紀錄，新增遊戲結果與損益結果
      *
      * @param int $_iBetId
      * @param int $_iPlayerId

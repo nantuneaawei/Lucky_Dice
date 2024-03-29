@@ -104,7 +104,7 @@ class BetTest extends TestCase
     }
 
     /**
-     * 測試更新下注紀錄
+     * 測試更新下注紀錄，新增遊戲結果與損益結果
      *
      * @group bet
      * @return void
@@ -134,7 +134,7 @@ class BetTest extends TestCase
             ->get();
 
         $this->assertEquals($bExpected, $bResult);
-        
+
         foreach ($oUpdatedBetRecords as $oUpdatedRecord) {
             $this->assertEquals($aData['game_result'], $oUpdatedRecord->game_result);
             $this->assertEquals($aData['profit_loss'], $oUpdatedRecord->profit_loss);
