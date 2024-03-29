@@ -46,10 +46,17 @@ chmod -R ugo+rw storage
 ## 安裝vue
 ```
 docker-compose exec app npm install vue@3.4.21 vue-router@4.2.5
+docker-compose exec app npm install @vitejs/plugin-vue
 ```
 
 ## 
 ```
 docker-compose exec app npm install
 docker-compose exec app npm run dev
+```
+
+##
+出現在console(http://localhost:5173/@vite/client net::ERR_EMPTY_RESPONSE)
+```
+docker-compose exec app npm run build
 ```

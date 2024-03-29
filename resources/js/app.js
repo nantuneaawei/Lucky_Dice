@@ -1,7 +1,8 @@
-import './bootstrap';
-import { createApp } from 'vue';
-import App from './App.vue';
+import { createApp } from 'vue'
+import './bootstrap'
+import Roulette from './components/Roulette.vue'
 
-const app = createApp(App);
+const app = createApp({})
+app.component('roulette', Roulette)
 
-app.mount('#app');
+app.mount('#app')
