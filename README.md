@@ -46,9 +46,11 @@ chmod -R ugo+rw storage
 ## 安裝vue
 ```
 docker-compose exec app npm install vue@3.4.21 vue-router@4.2.5
+```
+出現Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-vue' imported from
+```
 docker-compose exec app npm install @vitejs/plugin-vue
 ```
-
 ## 
 ```
 docker-compose exec app npm install
