@@ -1,0 +1,21 @@
+.betting-area {
+    margin: 20px;
+  }
+  
+  .bet-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    margin: 5px;
+  }
+  
