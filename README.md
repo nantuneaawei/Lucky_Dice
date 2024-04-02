@@ -62,3 +62,13 @@ docker-compose exec app npm run dev
 ```
 docker-compose exec app npm run build
 ```
+
+##
+```
+docker-compose exec app npm install axios
+```
+
+##
+```
+docker-compose exec app npm run start
+```
