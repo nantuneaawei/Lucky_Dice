@@ -1,29 +1,35 @@
 <template>
   <div class="betting-area">
     <h2>輪盤遊戲下注區</h2>
+    <div class="chip-area">
+      <h3>籌碼區</h3>
+      <button @click="setBetAmount(100)">100</button>
+      <button @click="setBetAmount(500)">500</button>
+      <button @click="setBetAmount(1000)">1000</button>
+      <button @click="setBetAmount(5000)">5000</button>
+      <button @click="setBetAmount(10000)">10000</button>
+    </div>
     <div class="number-bets">
       <h3>Numbers</h3>
       <div class="numbers">
         <button v-for="num in numbers" :key="num" @click="placeBet('number', num)">
           {{ num }}
+          <span v-bind:style="{ color: bets['number'][num] ? 'red' : '' }" v-if="bets['number'][num]">{{ bets['number'][num] }}</span>
         </button>
       </div>
     </div>
     <div class="color-bets">
       <h3>Color</h3>
-      <button @click="placeBet('color', 'red')">Red</button>
-      <button @click="placeBet('color', 'black')">Black</button>
+      <button @click="placeBet('color', 'red')">紅<span v-if="bets['color']['red']">({{ bets['color']['red'] }})</span></button>
+      <button @click="placeBet('color', 'black')">黑<span v-if="bets['color']['black']">({{ bets['color']['black'] }})</span></button>
     </div>
     <div class="parity-bets">
       <h3>Odd/Even</h3>
-      <button @click="placeBet('parity', 'odd')">Odd</button>
-      <button @click="placeBet('parity', 'even')">Even</button>
+      <button @click="placeBet('parity', 'odd')">奇<span v-if="bets['parity']['odd']">({{ bets['parity']['odd'] }})</span></button>
+      <button @click="placeBet('parity', 'even')">偶<span v-if="bets['parity']['even']">({{ bets['parity']['even'] }})</span></button>
     </div>
-    <div class="bet-amount">
-      <label for="amount">Bet Amount:</label>
-      <input type="number" id="amount" v-model="betAmount" min="100" step="100" />
-    </div>
-    <button @click="placeBet('amount')">開始遊戲</button>
+    <button @click="startGame">開始遊戲</button>
+    <button @click="cancelAllBets">取消所有下注</button>
   </div>
 </template>
 
@@ -32,36 +38,47 @@ export default {
   data() {
     return {
       numbers: Array.from({ length: 37 }, (_, index) => index),
+      bets: {
+        number: Array.from({ length: 37 }, () => 0),
+        color: { red: 0, black: 0 },
+        parity: { odd: 0, even: 0 },
+      },
       betAmount: 0,
     };
   },
   methods: {
-    placeBet(type, value = null) {
+    setBetAmount(amount) {
+      this.betAmount = amount;
+    },
+    placeBet(type, value) {
+      if (type === 'number') {
+        this.bets[type][value] += this.betAmount;
+      } else {
+        this.bets[type][value] = this.betAmount;
+      }
       console.log('Placing bet:', type, value, 'Amount:', this.betAmount);
+    },
+    startGame() {
+      console.log('Starting game. Place your bets!');
+      const betsData = {
+        numbers: this.bets.number,
+        color: this.bets.color,
+        parity: this.bets.parity,
+      };
+      console.log('Bets Data:', betsData);
+      this.placeBets(betsData);
+    },
+    cancelAllBets() {
+      this.bets = {
+        number: Array.from({ length: 37 }, () => 0),
+        color: { red: 0, black: 0 },
+        parity: { odd: 0, even: 0 },
+      };
+      console.log('All bets canceled.');
+    },
+    placeBets(betsData) {
+      console.log('Sending bets data to server:', betsData);
     },
   },
 };
 </script>
-
-<style scoped>
-.betting-area {
-  margin: 20px;
-}
-
-.bet-options {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.numbers {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-button {
-  padding: 5px 10px;
-  margin: 5px;
-}
-</style>
