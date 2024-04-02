@@ -51,6 +51,11 @@ export default {
       this.betAmount = amount;
     },
     placeBet(type, value) {
+      if (this.betAmount === 0) {
+        alert('尚未選擇籌碼! 請先選擇籌碼。');
+        return;
+      }
+
       if (type === 'number') {
         this.bets[type][value] += this.betAmount;
       } else {
@@ -60,11 +65,23 @@ export default {
     },
     startGame() {
       console.log('Starting game. Place your bets!');
-      const betsData = {
-        numbers: this.bets.number,
-        color: this.bets.color,
-        parity: this.bets.parity,
-      };
+      const totalBets = Object.values(this.bets.number).reduce((acc, cur) => acc + cur, 0)
+        + this.bets.color.red + this.bets.color.black
+        + this.bets.parity.odd + this.bets.parity.even;
+
+      if (totalBets === 0) {
+        alert('尚未下注! 請先選擇籌碼並下注。');
+        return;
+      }
+
+      const betsData = [];
+      for (const [type, bets] of Object.entries(this.bets)) {
+        for (const [value, amount] of Object.entries(bets)) {
+          if (amount > 0) {
+            betsData.push({ type, value, amount });
+          }
+        }
+      }
       console.log('Bets Data:', betsData);
       this.placeBets(betsData);
     },
