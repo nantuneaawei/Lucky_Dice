@@ -21,9 +21,9 @@
     </div>
     <div class="bet-amount">
       <label for="amount">Bet Amount:</label>
-      <input type="number" id="amount" v-model="betAmount" min="1" step="1" />
-      <button @click="placeBet('amount')">Place Bet</button>
+      <input type="number" id="amount" v-model="betAmount" min="100" step="100" />
     </div>
+    <button @click="placeBet('amount')">開始遊戲</button>
   </div>
 </template>
 
