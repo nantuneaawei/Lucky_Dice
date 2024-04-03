@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export function placeBet(type, value, amount) {
-  return axios.post('/api/placeBet', { type, value, amount })
+export function sendBetsData(betsData) {
+  return axios.post('/api/placeBet', betsData)
     .then(response => {
       console.log(response.data);
       return response.data;

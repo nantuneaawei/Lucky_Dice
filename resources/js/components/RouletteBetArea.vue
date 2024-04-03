@@ -14,26 +14,33 @@
       <div class="numbers">
         <button v-for="num in numbers" :key="num" @click="placeBet('number', num)">
           {{ num }}
-          <span v-bind:style="{ color: bets['number'][num] ? 'red' : '' }" v-if="bets['number'][num]">{{ bets['number'][num] }}</span>
+          <span v-bind:style="{ color: bets['number'][num] ? 'red' : '' }" v-if="bets['number'][num]">{{
+        bets['number'][num] }}</span>
         </button>
       </div>
     </div>
     <div class="color-bets">
       <h3>Color</h3>
-      <button @click="placeBet('color', 'red')">紅<span v-if="bets['color']['red']">({{ bets['color']['red'] }})</span></button>
-      <button @click="placeBet('color', 'black')">黑<span v-if="bets['color']['black']">({{ bets['color']['black'] }})</span></button>
+      <button @click="placeBet('color', 'red')">紅<span v-if="bets['color']['red']">({{ bets['color']['red']
+          }})</span></button>
+      <button @click="placeBet('color', 'black')">黑<span v-if="bets['color']['black']">({{ bets['color']['black']
+          }})</span></button>
     </div>
     <div class="parity-bets">
       <h3>Odd/Even</h3>
-      <button @click="placeBet('parity', 'odd')">奇<span v-if="bets['parity']['odd']">({{ bets['parity']['odd'] }})</span></button>
-      <button @click="placeBet('parity', 'even')">偶<span v-if="bets['parity']['even']">({{ bets['parity']['even'] }})</span></button>
+      <button @click="placeBet('parity', 'odd')">奇<span v-if="bets['parity']['odd']">({{ bets['parity']['odd']
+          }})</span></button>
+      <button @click="placeBet('parity', 'even')">偶<span v-if="bets['parity']['even']">({{ bets['parity']['even']
+          }})</span></button>
     </div>
-    <button @click="startGame">開始遊戲</button>
+    <button id="betButton" @click="startGame">開始遊戲</button>
     <button @click="cancelAllBets">取消所有下注</button>
   </div>
 </template>
 
 <script>
+import { sendBetsData } from '../bet';
+
 export default {
   data() {
     return {
@@ -83,7 +90,14 @@ export default {
         }
       }
       console.log('Bets Data:', betsData);
-      this.placeBets(betsData);
+
+      sendBetsData(betsData)
+        .then(data => {
+          console.log('Bet placed successfully:', data);
+        })
+        .catch(error => {
+          console.error('Error placing bet:', error);
+        });
     },
     cancelAllBets() {
       this.bets = {
