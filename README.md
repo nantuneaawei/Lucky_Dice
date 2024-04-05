@@ -72,3 +72,8 @@ docker-compose exec app npm install axios
 ```
 docker-compose exec app npm run start
 ```
+
+##
+```
+docker-compose exec app composer require predis/predis
+```
