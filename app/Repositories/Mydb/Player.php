@@ -34,4 +34,19 @@ class Player
     {
         return $this->oPlayerModel::find($_iPlayerId)->balance;
     }
+    
+    /**
+     * createMember
+     *
+     * @param  array $_aData
+     * @return void
+     */
+    public function createMember($_aData)
+    {
+        return $this->oPlayerModel->create([
+            'username' => $_aData['Username'],
+            'email' => $_aData['Email'],
+            'password' => password_hash($_aData['Password'], PASSWORD_DEFAULT),
+        ]);
+    }
 }

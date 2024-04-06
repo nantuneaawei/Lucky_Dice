@@ -70,4 +70,26 @@ class PlayerTest extends TestCase
 
         $this->assertEquals(1000, $iPlayerBalance);
     }
+    
+    /**
+     * testCreateMember
+     * 
+     * @group member
+     * @return void
+     */
+    public function testCreateMember()
+    {
+        $aMemberData = [
+            'Username' => 'testuser',
+            'Email' => 'test@example.com',
+            'Password' => 'testpassword',
+        ];
+
+        $oCreatedMember = $this->oPlayerRepositories->createMember($aMemberData);
+
+        $this->assertNotNull($oCreatedMember);
+        $this->assertEquals($aMemberData['Username'], $oCreatedMember->username);
+        $this->assertEquals($aMemberData['Email'], $oCreatedMember->email);
+        $this->assertTrue(password_verify($aMemberData['Password'], $oCreatedMember->password));
+    }
 }
