@@ -5,6 +5,7 @@ namespace Tests\Unit\Repositories\Mydb;
 use App\Models\Mydb\Player;
 use App\Repositories\Mydb\Player as PlayerRepositories;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class PlayerTest extends TestCase
@@ -91,5 +92,24 @@ class PlayerTest extends TestCase
         $this->assertEquals($aMemberData['Username'], $oCreatedMember->username);
         $this->assertEquals($aMemberData['Email'], $oCreatedMember->email);
         $this->assertTrue(password_verify($aMemberData['Password'], $oCreatedMember->password));
+    }
+    
+    
+    /**
+     * testFindMemberByEmail
+     *
+     * @group member
+     * @return void
+     */
+    public function testFindMemberByEmail()
+    {
+        $oPlayer = Player::factory()->create();
+
+        $oFoundMember = $this->oPlayerRepositories->findMemberByEmail($oPlayer->email);
+
+        $this->assertNotNull($oFoundMember);
+        $this->assertEquals($oPlayer->username, $oFoundMember->username);
+        $this->assertEquals($oPlayer->email, $oFoundMember->email);
+        $this->assertEquals($oPlayer->password, $oFoundMember->password);
     }
 }

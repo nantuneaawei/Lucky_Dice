@@ -49,4 +49,15 @@ class Player
             'password' => password_hash($_aData['Password'], PASSWORD_DEFAULT),
         ]);
     }
+    
+    /**
+     * findMemberByEmail
+     *
+     * @param  string $_sEmail
+     * @return void
+     */
+    public function findMemberByEmail($_sEmail)
+    {
+        return $this->oPlayerModel->where('email', $_sEmail)->first();
+    }
 }
