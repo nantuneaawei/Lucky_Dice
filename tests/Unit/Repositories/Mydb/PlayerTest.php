@@ -81,17 +81,17 @@ class PlayerTest extends TestCase
     public function testCreateMember()
     {
         $aMemberData = [
-            'Username' => 'testuser',
-            'Email' => 'test@example.com',
-            'Password' => 'testpassword',
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+            'password' => 'testpassword',
         ];
 
         $oCreatedMember = $this->oPlayerRepositories->createMember($aMemberData);
 
         $this->assertNotNull($oCreatedMember);
-        $this->assertEquals($aMemberData['Username'], $oCreatedMember->username);
-        $this->assertEquals($aMemberData['Email'], $oCreatedMember->email);
-        $this->assertTrue(password_verify($aMemberData['Password'], $oCreatedMember->password));
+        $this->assertEquals($aMemberData['username'], $oCreatedMember->username);
+        $this->assertEquals($aMemberData['email'], $oCreatedMember->email);
+        $this->assertTrue(password_verify($aMemberData['password'], $oCreatedMember->password));
     }
     
     

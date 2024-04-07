@@ -44,9 +44,9 @@ class Player
     public function createMember($_aData)
     {
         return $this->oPlayerModel->create([
-            'username' => $_aData['Username'],
-            'email' => $_aData['Email'],
-            'password' => password_hash($_aData['Password'], PASSWORD_DEFAULT),
+            'username' => $_aData['username'],
+            'email' => $_aData['email'],
+            'password' => password_hash($_aData['password'], PASSWORD_DEFAULT),
         ]);
     }
     
