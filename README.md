@@ -77,3 +77,8 @@ docker-compose exec app npm run start
 ```
 docker-compose exec app composer require predis/predis
 ```
+
+## 安裝Vue Router
+```
+docker-compose exec app npm install vue-router@4.2.5 --save
+```
