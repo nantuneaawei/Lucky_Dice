@@ -1,10 +1,9 @@
 import './bootstrap';
 import { createApp } from 'vue';
-import RouletteBettingArea from './components/RouletteBetArea.vue';
-import RegisterForm from './components/RegisterForm.vue';
+import App from './App.vue';
+import router from './router';
 
-const app = createApp({});
-app.component('roulette-betting-area', RouletteBettingArea);
-app.component('register-form', RegisterForm);
+const app = createApp(App);
+app.use(router);
 
 app.mount('#app');

@@ -18,6 +18,11 @@ class AuthController extends Controller
         $this->oPlayerRepositories = $_oPlayerRepositories;
     }
 
+    public function index()
+    {
+        return view('auth.login');
+    }
+    
     public function CreateMember(RegisterRequest $oRequest)
     {
         $aValidatedData = $oRequest->validated();
