@@ -4,7 +4,7 @@ import RegisterForm from '../components/RegisterForm.vue';
 import LoginForm from '../components/LoginForm.vue';
 
 const routes = [
-  { path: '/', component: RouletteBettingArea },
+  { path: '/roulette', component: RouletteBettingArea },
   { path: '/register', component: RegisterForm },
   { path: '/login', component: LoginForm },
 ];

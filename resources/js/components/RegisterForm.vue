@@ -16,6 +16,7 @@
       </div>
       <button type="submit">註冊</button>
     </form>
+    <button @click="redirectToLogin">登入頁面</button>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
 </template>
@@ -39,12 +40,16 @@ export default {
       };
       axios.post('/api/register', registerData)
         .then(response => {
-          console.log(response.data);
+          alert('註冊成功！');
+          this.$router.push('/login');
         })
         .catch(error => {
-          this.errorMessage = 'Registration failed. Please try again.';
+          this.errorMessage = '註冊失敗!請重試';
         });
     },
+    redirectToLogin() {
+      this.$router.push('/login');
+    }
   },
 };
 </script>

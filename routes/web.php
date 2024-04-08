@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('game.roulette');
-});
-
-Route::view('/register', 'auth.register');
 
 Route::get('/api/routes', function () {
     return [
@@ -29,6 +24,10 @@ Route::get('/api/routes', function () {
             [
                 'path' => '/register',
                 'component' => 'Register',
+            ],
+            [
+                'path' => '/roulette',
+                'component' => 'Roulette'
             ],
         ],
     ];
