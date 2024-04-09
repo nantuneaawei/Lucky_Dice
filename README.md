@@ -59,11 +59,12 @@ docker-compose exec app npm run dev
 
 ##
 出現在console(http://localhost:5173/@vite/client net::ERR_EMPTY_RESPONSE)
+或是更改vite.config.js時
 ```
 docker-compose exec app npm run build
 ```
 
-##
+## 安裝axios
 ```
 docker-compose exec app npm install axios
 ```
@@ -73,9 +74,14 @@ docker-compose exec app npm install axios
 docker-compose exec app npm run start
 ```
 
-##
+## 安裝redis套件
 ```
 docker-compose exec app composer require predis/predis
+```
+
+## 測試連線redis
+```
+docker-compose exec app php artisan test --filter RedisTest
 ```
 
 ## 安裝Vue Router
