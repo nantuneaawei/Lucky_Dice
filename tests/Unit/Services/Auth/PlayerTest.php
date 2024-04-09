@@ -51,4 +51,31 @@ class PlayerTest extends TestCase
         $this->assertTrue($aResult['state']);
         $this->assertEquals('登入成功!', $aResult['message']);
     }
+    
+    /**
+     * testLoginPlayerWithWrongPassword
+     *
+     * @group player
+     * @return void
+     */
+    public function testLoginPlayerWithWrongPassword()
+    {
+        $aPlayerData = [
+            'id' => 1,
+            'email' => 'test@example.com',
+            'password' => password_hash('12345678', PASSWORD_DEFAULT),
+        ];
+
+        $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('test@example.com')->andReturn($aPlayerData);
+
+        $this->oRedisRepository->shouldReceive('storeUIDs')->once()->with($aPlayerData['id'], Mockery::type('array'));
+        
+        $aResult = $this->oPlayerService->loginPlayer([
+            'email' => $aPlayerData['email'],
+            'password' => '98765432',
+        ]);
+
+        $this->assertFalse($aResult['state']);
+        $this->assertEquals('密碼錯誤!', $aResult['message']);
+    }
 }
