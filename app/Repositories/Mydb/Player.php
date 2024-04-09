@@ -58,6 +58,8 @@ class Player
      */
     public function findMemberByEmail($_sEmail)
     {
-        return $this->oPlayerModel->where('email', $_sEmail)->first();
+        return $this->oPlayerModel->where('email', $_sEmail)
+            ->first()
+            ->toArray();
     }
 }

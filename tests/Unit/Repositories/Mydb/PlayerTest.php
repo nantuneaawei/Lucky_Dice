@@ -105,11 +105,11 @@ class PlayerTest extends TestCase
     {
         $oPlayer = Player::factory()->create();
 
-        $oFoundMember = $this->oPlayerRepositories->findMemberByEmail($oPlayer->email);
+        $aFoundMember = $this->oPlayerRepositories->findMemberByEmail($oPlayer->email);
 
-        $this->assertNotNull($oFoundMember);
-        $this->assertEquals($oPlayer->username, $oFoundMember->username);
-        $this->assertEquals($oPlayer->email, $oFoundMember->email);
-        $this->assertEquals($oPlayer->password, $oFoundMember->password);
+        $this->assertNotNull($aFoundMember);
+        $this->assertEquals($oPlayer->username, $aFoundMember['username']);
+        $this->assertEquals($oPlayer->email, $aFoundMember['email']);
+        $this->assertEquals($oPlayer->password, $aFoundMember['password']);
     }
 }
