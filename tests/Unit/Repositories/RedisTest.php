@@ -39,22 +39,41 @@ class RedisTest extends TestCase
         $this->assertEquals($aUids[0], $sStoredUid1);
         $this->assertEquals($aUids[1], $sStoredUid2);
     }
-    
+        
     /**
-     * testGetUIDFromRedis
+     * testGetUIDs
      *
      * @group redis
      * @return void
      */
-    public function testGetUIDFromRedis()
+    public function testGetUIDs()
     {
-        $sKey = 'test_key';
-        $sUid = substr(md5(uniqid('', true)), 3, 12);
+        $iUserId = 1;
+        $aUids = ['uid1_value', 'uid2_value'];
 
-        Redis::set($sKey, $sUid);
+        Redis::hset('uids:' . $iUserId, 'uid1', $aUids[0]);
+        Redis::hset('uids:' . $iUserId, 'uid2', $aUids[1]);
 
-        $sStoredUID = $this->oRedisRepositories->getUID($sKey);
+        $aStoredUids = $this->oRedisRepositories->getUIDs($iUserId);
 
-        $this->assertEquals($sUid, $sStoredUID);
+        $this->assertEquals($aUids, $aStoredUids);
+    }
+    
+    /**
+     * testGetUIDsEmptyArray
+     *
+     * @group redis
+     * @return void
+     */
+    public function testGetUIDsEmptyArray()
+    {
+        $iUserId = 1;
+
+        Redis::hdel('uids:' . $iUserId, 'uid1');
+        Redis::hdel('uids:' . $iUserId, 'uid2');
+
+        $aStoredUids = $this->oRedisRepositories->getUIDs($iUserId);
+
+        $this->assertEquals([null, null], $aStoredUids);
     }
 }

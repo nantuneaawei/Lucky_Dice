@@ -21,12 +21,12 @@ class RedisRepository
 
     /**
      * 從Redis中獲得UID
-     *
-     * @param string $key
-     * @return string|null
+     * 
+     * @param int $userId
+     * @return array|null
      */
-    public function getUID(string $sKey): ?string
+    public function getUIDs(int $userId): ?array
     {
-        return Redis::get($sKey);
+        return Redis::hmget('uids:' . $userId, 'uid1', 'uid2');
     }
 }
