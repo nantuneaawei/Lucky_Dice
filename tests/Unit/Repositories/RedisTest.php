@@ -19,23 +19,25 @@ class RedisTest extends TestCase
 
         $this->oRedisRepositories = new RedisRepositories();
     }
-    
+        
     /**
-     * testStoreUIDInRedis
+     * testStoreUIDs
      *
      * @group redis
      * @return void
      */
-    public function testStoreUIDInRedis()
+    public function testStoreUIDs()
     {
-        $sKey = 'test_key';
-        $sUid = substr(sha1(uniqid('', true)), 1, 10);
+        $iUserId = 1;
+        $aUids = ['uid1_value', 'uid2_value'];
 
-        $this->oRedisRepositories->storeUID($sKey, $sUid);
+        $this->oRedisRepositories->storeUIDs($iUserId, $aUids);
 
-        $sStoredUID = Redis::get($sKey);
+        $sStoredUid1 = Redis::hget('uids:' . $iUserId, 'uid1');
+        $sStoredUid2 = Redis::hget('uids:' . $iUserId, 'uid2');
 
-        $this->assertEquals($sUid, $sStoredUID);
+        $this->assertEquals($aUids[0], $sStoredUid1);
+        $this->assertEquals($aUids[1], $sStoredUid2);
     }
     
     /**

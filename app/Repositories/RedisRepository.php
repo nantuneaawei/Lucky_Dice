@@ -9,13 +9,14 @@ class RedisRepository
     /**
      * 設定UID到Redis
      *
-     * @param string $key
-     * @param string $uid
+     * @param int $userId
+     * @param array $uids
      * @return void
      */
-    public function storeUID(string $sKey, string $sUid)
+    public function storeUIDs(int $userId, array $uids)
     {
-        Redis::set($sKey, $sUid);
+        Redis::hset('uids:' . $userId, 'uid1', $uids[0]);
+        Redis::hset('uids:' . $userId, 'uid2', $uids[1]);
     }
 
     /**
