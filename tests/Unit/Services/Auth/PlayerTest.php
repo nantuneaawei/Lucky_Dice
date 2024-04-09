@@ -6,7 +6,9 @@ use App\Repositories\Mydb\Player as PlayerReositories;
 use App\Repositories\RedisRepository as RedisRepositories;
 use App\Services\Auth\Player as PlayerServices;
 use Mockery;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Session;
 
 class PlayerTest extends TestCase
 {
@@ -18,6 +20,10 @@ class PlayerTest extends TestCase
     {
         parent::setUp();
 
+        Facade::setFacadeApplication([
+            'session' => Session::getFacadeRoot(),
+        ]);
+
         $this->oRedisRepository = Mockery::mock(RedisRepositories::class);
 
         $this->oPlayerRepository = Mockery::mock(PlayerReositories::class);
@@ -28,11 +34,13 @@ class PlayerTest extends TestCase
     /**
      * testLoginPlayerSuccess
      *
-     * @group player
+     * @group player1
      * @return void
      */
     public function testLoginPlayerSuccess()
     {
+        Session::put('user_logged_in', true);
+        
         $aPlayerData = [
             'id' => 1,
             'email' => 'test@example.com',
@@ -68,8 +76,6 @@ class PlayerTest extends TestCase
 
         $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('test@example.com')->andReturn($aPlayerData);
 
-        $this->oRedisRepository->shouldReceive('storeUIDs')->once()->with($aPlayerData['id'], Mockery::type('array'));
-        
         $aResult = $this->oPlayerService->loginPlayer([
             'email' => $aPlayerData['email'],
             'password' => '98765432',

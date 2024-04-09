@@ -5,6 +5,7 @@ namespace App\Services\Auth;
 use App\Repositories\Mydb\Player as PlayerRepositories;
 use App\Repositories\RedisRepository as RedisRepositories;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
 
 class Player
 {
@@ -36,6 +37,8 @@ class Player
                 $sUID2 = substr(md5(uniqid('', true)), 3, 12);
 
                 $this->oRedisRepositories->storeUIDs($aPlayer['id'], [$sUID, $sUID2]);
+
+                Session::put('user_logged_in', true);
 
                 return [
                     'state' => true,
