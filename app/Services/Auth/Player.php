@@ -48,7 +48,7 @@ class Player
                 ];
             }
         } else {
-            [
+            return [
                 'state' => false,
                 'message' => '帳號不存在!',
             ];

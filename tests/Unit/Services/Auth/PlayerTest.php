@@ -78,4 +78,23 @@ class PlayerTest extends TestCase
         $this->assertFalse($aResult['state']);
         $this->assertEquals('密碼錯誤!', $aResult['message']);
     }
+    
+    /**
+     * testLoginPlayerWithNonExistentEmail
+     *
+     * @group player
+     * @return void
+     */
+    public function testLoginPlayerWithNonExistentEmail()
+    {
+        $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('nonexistent@example.com')->andReturn(null);
+        
+        $aResult = $this->oPlayerService->loginPlayer([
+            'email' => 'nonexistent@example.com',
+            'password' => 'password',
+        ]);
+
+        $this->assertFalse($aResult['state']);
+        $this->assertEquals('帳號不存在!', $aResult['message']);
+    }
 }
