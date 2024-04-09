@@ -44,10 +44,15 @@ class RouletteTest extends TestCase
      */
     public function testgenerateRoulette($iMockRandom, $aExpected)
     {
+        Mockery::resetContainer();
+
         $this->setRandomMock($iMockRandom);
 
         $aWheelConfig = [0, 5, 10, 15, 20, 25, 30, 35];
         Config::shouldReceive('get')->with('RouletteSet.wheel')->andReturn($aWheelConfig);
+
+        $oBetRepository = Mockery::mock('overload:App\Repositories\Mydb\Bet_' . $iMockRandom);
+        $oBetRepository->shouldReceive('addBetRecord')->once()->with(1, Mockery::type('int'));
 
         $oRouletteService = new RouletteService();
         $aResult = $oRouletteService->generateRoulette();
