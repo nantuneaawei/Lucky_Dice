@@ -39,6 +39,7 @@ class Player
                 $this->oRedisRepositories->storeUIDs($aPlayer['id'], [$sUID, $sUID2]);
 
                 Session::put('user_logged_in', true);
+                Session::put('login_time', now());
 
                 return [
                     'state' => true,
