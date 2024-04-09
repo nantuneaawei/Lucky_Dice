@@ -17,4 +17,15 @@ class RedisRepository
     {
         Redis::set($sKey, $sUid);
     }
+
+    /**
+     * 從Redis中獲得UID
+     *
+     * @param string $key
+     * @return string|null
+     */
+    public function getUID(string $sKey): ?string
+    {
+        return Redis::get($sKey);
+    }
 }

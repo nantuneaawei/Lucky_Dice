@@ -37,4 +37,22 @@ class RedisTest extends TestCase
 
         $this->assertEquals($sUid, $sStoredUID);
     }
+    
+    /**
+     * testGetUIDFromRedis
+     *
+     * @group redis
+     * @return void
+     */
+    public function testGetUIDFromRedis()
+    {
+        $sKey = 'test_key';
+        $sUid = substr(md5(uniqid('', true)), 3, 12);
+
+        Redis::set($sKey, $sUid);
+
+        $sStoredUID = $this->oRedisRepositories->getUID($sKey);
+
+        $this->assertEquals($sUid, $sStoredUID);
+    }
 }
