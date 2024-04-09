@@ -34,10 +34,11 @@
         };
         axios.post('/api/login', loginData)
           .then(response => {
-            console.log(response.data);
+            alert('登入成功！');
+            this.$router.push('/roulette');
           })
           .catch(error => {
-            this.errorMessage = 'Login failed. Please try again.';
+            this.errorMessage = '登入失敗!請重試';
           });
       },
       redirectToRegister() {

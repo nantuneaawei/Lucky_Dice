@@ -23,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/placeBet', [BetController::class, 'placeBet']);
 
 Route::post('/register', [AuthController::class, 'CreateMember']);
+
+Route::post('/login', [AuthController::class, 'LoginMember']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Services\Auth\Player as PlayerServices;
 use App\Repositories\mydb\Player as PlayerRepositories;
 
@@ -32,5 +33,12 @@ class AuthController extends Controller
         $aCreateArray = $this->oPlayerService->registerResult($bCreate);
         
         return $aCreateArray;
+    }
+
+    public function LoginMember(LoginRequest $oRequest)
+    {
+        $aValidatedData = $oRequest->validated();
+
+        return $this->oPlayerService->loginPlayer($aValidatedData);
     }
 }
