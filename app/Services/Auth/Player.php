@@ -66,14 +66,6 @@ class Player
         }
     }
 
-    protected function generateUID()
-    {
-        $sUID = substr(sha1(uniqid('', true)), 1, 10);
-        $sUID2 = substr(md5(uniqid('', true)), 3, 12);
-
-        return [$sUID, $sUID2];
-    }
-
     protected function setSessionData($_aPlayer)
     {
         $this->oSessionService->put('user_id', $_aPlayer['id']);
