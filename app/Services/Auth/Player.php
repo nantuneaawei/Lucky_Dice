@@ -40,6 +40,8 @@ class Player
 
                 $this->oSessionService->put('user_id', $aPlayer['id']);
 
+                $this->oSessionService->put('user_name', $aPlayer['username']);
+
                 return [
                     'state' => true,
                     'message' => '登入成功!',

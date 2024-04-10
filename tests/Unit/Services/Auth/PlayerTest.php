@@ -35,18 +35,21 @@ class PlayerTest extends TestCase
      */
     public function testLoginPlayerSuccess()
     {
-        $this->oSessionService->shouldReceive('put')->with('user_id', Mockery::any());
-        
         $aPlayerData = [
             'id' => 1,
+            'username' => 'test',
             'email' => 'test@example.com',
             'password' => password_hash('12345678', PASSWORD_DEFAULT),
         ];
 
+        $this->oSessionService->shouldReceive('put')->with('user_id', $aPlayerData['id']);
+
+        $this->oSessionService->shouldReceive('put')->with('user_name', $aPlayerData['username']);
+
         $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('test@example.com')->andReturn($aPlayerData);
 
         $this->oRedisRepository->shouldReceive('storeUIDs')->once()->with($aPlayerData['id'], Mockery::type('array'));
-        
+
         $aResult = $this->oPlayerService->loginPlayer([
             'email' => $aPlayerData['email'],
             'password' => '12345678',
@@ -55,7 +58,7 @@ class PlayerTest extends TestCase
         $this->assertTrue($aResult['state']);
         $this->assertEquals('登入成功!', $aResult['message']);
     }
-    
+
     /**
      * testLoginPlayerWithWrongPassword
      *
@@ -80,7 +83,7 @@ class PlayerTest extends TestCase
         $this->assertFalse($aResult['state']);
         $this->assertEquals('密碼錯誤!', $aResult['message']);
     }
-    
+
     /**
      * testLoginPlayerWithNonExistentEmail
      *
@@ -90,7 +93,7 @@ class PlayerTest extends TestCase
     public function testLoginPlayerWithNonExistentEmail()
     {
         $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('nonexistent@example.com')->andReturn(null);
-        
+
         $aResult = $this->oPlayerService->loginPlayer([
             'email' => 'nonexistent@example.com',
             'password' => 'password',
