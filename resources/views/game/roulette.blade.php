@@ -10,7 +10,7 @@
 
 <body>
   <div id="app">
-    <roulette-betting-area></roulette-betting-area>
+    <router-view></router-view>
   </div>
   @vite('resources/js/app.js')
 </body>
