@@ -34,7 +34,7 @@ class Player
     {
         return $this->oPlayerModel::find($_iPlayerId)->balance;
     }
-    
+
     /**
      * createMember
      *
@@ -49,7 +49,7 @@ class Player
             'password' => password_hash($_aData['password'], PASSWORD_DEFAULT),
         ]);
     }
-    
+
     /**
      * findMemberByEmail
      *
@@ -58,8 +58,12 @@ class Player
      */
     public function findMemberByEmail($_sEmail)
     {
-        return $this->oPlayerModel->where('email', $_sEmail)
-            ->first()
-            ->toArray();
+        $oMember = $this->oPlayerModel->where('email', $_sEmail)->first();
+
+        if ($oMember !== null) {
+            return $oMember->toArray();
+        }
+
+        return null;
     }
 }
