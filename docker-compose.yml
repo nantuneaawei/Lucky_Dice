@@ -26,6 +26,8 @@ services:
 
   db:
     image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
     environment:
@@ -46,3 +48,6 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: jacky
+
+volumes:
+  db_data:
