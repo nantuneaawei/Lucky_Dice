@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->decimal('balance', 10, 2)->default(0.00);
-            $table->timestamps();
+            $table->timestamp('createdAt')->useCurrent();
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

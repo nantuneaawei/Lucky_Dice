@@ -20,7 +20,8 @@ return new class extends Migration
             $table->decimal('bet_amount', 10, 2)->comment('下注金額');
             $table->string('game_result')->nullable()->comment('遊戲結果');
             $table->decimal('profit_loss', 10, 2)->nullable()->comment('損益結果');
-            $table->timestamps();
+            $table->timestamp('createdAt')->useCurrent();
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
 
         Schema::table('bets', function (Blueprint $table) {
