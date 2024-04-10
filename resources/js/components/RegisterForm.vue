@@ -40,8 +40,12 @@ export default {
       };
       axios.post('/api/register', registerData)
         .then(response => {
-          alert('註冊成功！');
-          this.$router.push('/login');
+          if (response.data.state) {
+            alert('註冊成功！');
+            this.$router.push('/login');
+          } else {
+            this.errorMessage = response.data.message;
+          }
         })
         .catch(error => {
           this.errorMessage = '註冊失敗!請重試';

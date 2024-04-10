@@ -5,7 +5,9 @@ namespace Tests\Unit\Services\Auth;
 use App\Repositories\Mydb\Player as PlayerReositories;
 use App\Repositories\RedisRepository as RedisRepositories;
 use App\Services\Auth\Player as PlayerServices;
+use App\Services\CookieService;
 use App\Services\SessionService;
+use App\Services\UIDService;
 use Mockery;
 use Tests\TestCase;
 
@@ -15,6 +17,8 @@ class PlayerTest extends TestCase
     private $oRedisRepository;
     private $oPlayerRepository;
     private $oSessionService;
+    private $oCookieService;
+    private $oUIDService;
 
     public function setUp(): void
     {
@@ -23,8 +27,10 @@ class PlayerTest extends TestCase
         $this->oRedisRepository = Mockery::mock(RedisRepositories::class);
         $this->oPlayerRepository = Mockery::mock(PlayerReositories::class);
         $this->oSessionService = Mockery::mock(SessionService::class);
+        $this->oCookieService = Mockery::mock(CookieService::class);
+        $this->oUIDService = Mockery::mock(UidService::class);
 
-        $this->oPlayerService = new PlayerServices($this->oPlayerRepository, $this->oRedisRepository, $this->oSessionService);
+        $this->oPlayerService = new PlayerServices($this->oPlayerRepository, $this->oRedisRepository, $this->oSessionService, $this->oCookieService, $this->oUIDService);
     }
 
     /**
@@ -43,12 +49,34 @@ class PlayerTest extends TestCase
             'balance' => 100,
         ];
 
-        $this->oSessionService->shouldReceive('put')->with('user_id', $aPlayerData['id'])->once();
-        $this->oSessionService->shouldReceive('put')->with('user_name', $aPlayerData['username'])->once();
-        $this->oSessionService->shouldReceive('put')->with('user_balance', $aPlayerData['balance'])->once();
+        $aUID = [
+            '1234567890',
+            'abcdefghijklm',
+        ];
 
-        $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('test@example.com')->andReturn($aPlayerData);
-        $this->oRedisRepository->shouldReceive('storeUIDs')->once()->with($aPlayerData['id'], Mockery::type('array'));
+        $this->oUIDService->shouldReceive('generateUID')
+            ->andReturn($aUID);
+
+        $this->oSessionService->shouldReceive('put')
+            ->with('user_id', $aPlayerData['id'])
+            ->once();
+        $this->oSessionService->shouldReceive('put')
+            ->with('user_name', $aPlayerData['username'])
+            ->once();
+
+        $this->oCookieService->shouldReceive('put')
+            ->with('uid1', $aUID[0], Mockery::type('int'))
+            ->once();
+        $this->oCookieService->shouldReceive('put')
+            ->with('uid2', $aUID[1], Mockery::type('int'))
+            ->once();
+
+        $this->oPlayerRepository->shouldReceive('findMemberByEmail')
+            ->with('test@example.com')
+            ->andReturn($aPlayerData);
+        $this->oRedisRepository->shouldReceive('storeUIDs')
+            ->once()
+            ->with($aPlayerData['id'], Mockery::type('array'));
 
         $aResult = $this->oPlayerService->loginPlayer([
             'email' => $aPlayerData['email'],

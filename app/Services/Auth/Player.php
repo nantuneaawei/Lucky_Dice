@@ -5,18 +5,24 @@ namespace App\Services\Auth;
 use App\Repositories\Mydb\Player as PlayerRepositories;
 use App\Repositories\RedisRepository as RedisRepositories;
 use App\Services\SessionService;
+use App\Services\CookieService;
+use App\Services\UIDService;
 
 class Player
 {
     private $oPlayerRepositories;
     private $oRedisRepositories;
     private $oSessionService;
+    private $oCookieService;
+    private $oUIDService;
 
-    public function __construct(PlayerRepositories $_oPlayerRepositories, RedisRepositories $_oRedisRepositories, SessionService $_oSessionService)
+    public function __construct(PlayerRepositories $_oPlayerRepositories, RedisRepositories $_oRedisRepositories, SessionService $_oSessionService, CookieService $_oCookieService, UIDService $_oUIDService)
     {
         $this->oPlayerRepositories = $_oPlayerRepositories;
         $this->oRedisRepositories = $_oRedisRepositories;
         $this->oSessionService = $_oSessionService;
+        $this->oCookieService = $_oCookieService;
+        $this->oUIDService = $_oUIDService;
     }
 
     public function registerResult($_bCreate)
@@ -34,11 +40,13 @@ class Player
 
         if ($aPlayer != null) {
             if (password_verify($_aData['password'], $aPlayer['password'])) {
-                $aUID = $this->generateUID();
+                $aUID = $this->oUIDService->generateUID();
 
                 $this->oRedisRepositories->storeUIDs($aPlayer['id'], $aUID);
 
                 $this->setSessionData($aPlayer);
+
+                $this->setUIDCookie($aUID);
 
                 return [
                     'state' => true,
@@ -71,7 +79,12 @@ class Player
         $this->oSessionService->put('user_id', $_aPlayer['id']);
 
         $this->oSessionService->put('user_name', $_aPlayer['username']);
+    }
 
-        $this->oSessionService->put('user_balance', $_aPlayer['balance']);
+    protected function setUIDCookie($_aUID)
+    {
+        $iMinutes = 60;
+        $this->oCookieService->put('uid1', $_aUID[0], $iMinutes);
+        $this->oCookieService->put('uid2', $_aUID[1], $iMinutes);
     }
 }
