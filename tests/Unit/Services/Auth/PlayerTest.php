@@ -5,30 +5,26 @@ namespace Tests\Unit\Services\Auth;
 use App\Repositories\Mydb\Player as PlayerReositories;
 use App\Repositories\RedisRepository as RedisRepositories;
 use App\Services\Auth\Player as PlayerServices;
+use App\Services\SessionService;
 use Mockery;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\Session;
 
 class PlayerTest extends TestCase
 {
     private $oPlayerService;
     private $oRedisRepository;
     private $oPlayerRepository;
+    private $oSessionService;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        Facade::setFacadeApplication([
-            'session' => Session::getFacadeRoot(),
-        ]);
-
         $this->oRedisRepository = Mockery::mock(RedisRepositories::class);
-
         $this->oPlayerRepository = Mockery::mock(PlayerReositories::class);
+        $this->oSessionService = Mockery::mock(SessionService::class);
 
-        $this->oPlayerService = new PlayerServices($this->oPlayerRepository, $this->oRedisRepository);
+        $this->oPlayerService = new PlayerServices($this->oPlayerRepository, $this->oRedisRepository, $this->oSessionService);
     }
 
     /**
@@ -39,7 +35,7 @@ class PlayerTest extends TestCase
      */
     public function testLoginPlayerSuccess()
     {
-        Session::put('user_logged_in', true);
+        $this->oSessionService->shouldReceive('put')->with('user_id', Mockery::any());
         
         $aPlayerData = [
             'id' => 1,

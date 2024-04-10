@@ -4,26 +4,27 @@ namespace App\Services\Auth;
 
 use App\Repositories\Mydb\Player as PlayerRepositories;
 use App\Repositories\RedisRepository as RedisRepositories;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Session;
+use App\Services\SessionService;
 
 class Player
 {
     private $oPlayerRepositories;
     private $oRedisRepositories;
+    private $oSessionService;
 
-    public function __construct(PlayerRepositories $_oPlayerRepositories, RedisRepositories $_oRedisRepositories)
+    public function __construct(PlayerRepositories $_oPlayerRepositories, RedisRepositories $_oRedisRepositories, SessionService $_oSessionService)
     {
         $this->oPlayerRepositories = $_oPlayerRepositories;
         $this->oRedisRepositories = $_oRedisRepositories;
+        $this->oSessionService = $_oSessionService;
     }
 
     public function registerResult($_bCreate)
     {
         if ($_bCreate) {
-            return Response::json(['success' => true, 'message' => '註冊成功'], 200);
+            return ['success' => true, 'message' => '註冊成功'];
         } else {
-            return Response::json(['success' => false, 'message' => '註冊失敗'], 422);
+            return ['success' => false, 'message' => '註冊失敗'];
         }
     }
 
@@ -37,10 +38,7 @@ class Player
 
                 $this->oRedisRepositories->storeUIDs($aPlayer['id'], $aUID);
 
-                
-
-                Session::put('user_logged_in', true);
-                Session::put('login_time', now());
+                $this->oSessionService->put('user_id', $aPlayer['id']);
 
                 return [
                     'state' => true,
