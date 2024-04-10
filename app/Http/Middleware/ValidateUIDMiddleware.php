@@ -4,10 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthCheckMiddleware
+class ValidateUIDMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,14 +17,13 @@ class AuthCheckMiddleware
      */
     public function handle(Request $oRequest, Closure $next): Response
     {
-        $iUid  = Session::get('uid1');
-        $iUid2 = Session::get('uid2');
-        $iLoginTime = Session::get('login_time');
+        $sessionUID = $oRequest->session()->get('uid');
+        $redisUID = Redis::hget('uids:' . Auth::id(), 'uid1');
 
-        if ($iUid && $iUid2 && $iLoginTime && (time() - $iLoginTime) <= 3600) {
+        if ($sessionUID && $redisUID && $sessionUID === $redisUID) {
             return $next($oRequest);
         } else {
-            return redirect('/login');
+            return redirect()->route('login');
         }
     }
 }

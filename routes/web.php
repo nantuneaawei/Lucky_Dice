@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware('auth.check')->get('/roulette', function () {
-    return view('roulette');
-});
+// Route::middleware('auth.check')->get('/roulette', function () {
+//     return view('roulette');
+// });
 
 Route::get('/api/routes', function () {
     return [
