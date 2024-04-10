@@ -40,14 +40,14 @@ class PlayerTest extends TestCase
             'username' => 'test',
             'email' => 'test@example.com',
             'password' => password_hash('12345678', PASSWORD_DEFAULT),
+            'balance' => 100,
         ];
 
-        $this->oSessionService->shouldReceive('put')->with('user_id', $aPlayerData['id']);
-
-        $this->oSessionService->shouldReceive('put')->with('user_name', $aPlayerData['username']);
+        $this->oSessionService->shouldReceive('put')->with('user_id', $aPlayerData['id'])->once();
+        $this->oSessionService->shouldReceive('put')->with('user_name', $aPlayerData['username'])->once();
+        $this->oSessionService->shouldReceive('put')->with('user_balance', $aPlayerData['balance'])->once();
 
         $this->oPlayerRepository->shouldReceive('findMemberByEmail')->with('test@example.com')->andReturn($aPlayerData);
-
         $this->oRedisRepository->shouldReceive('storeUIDs')->once()->with($aPlayerData['id'], Mockery::type('array'));
 
         $aResult = $this->oPlayerService->loginPlayer([

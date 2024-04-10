@@ -38,9 +38,7 @@ class Player
 
                 $this->oRedisRepositories->storeUIDs($aPlayer['id'], $aUID);
 
-                $this->oSessionService->put('user_id', $aPlayer['id']);
-
-                $this->oSessionService->put('user_name', $aPlayer['username']);
+                $this->setSessionData($aPlayer);
 
                 return [
                     'state' => true,
@@ -66,5 +64,14 @@ class Player
         $sUID2 = substr(md5(uniqid('', true)), 3, 12);
 
         return [$sUID, $sUID2];
+    }
+
+    protected function setSessionData($_aPlayer)
+    {
+        $this->oSessionService->put('user_id', $_aPlayer['id']);
+
+        $this->oSessionService->put('user_name', $_aPlayer['username']);
+
+        $this->oSessionService->put('user_balance', $_aPlayer['balance']);
     }
 }
