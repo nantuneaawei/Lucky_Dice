@@ -9,24 +9,25 @@ class RedisRepository
     /**
      * 設定UID到Redis
      *
-     * @param int $userId
-     * @param array $uids
+     * @param int $_iUserId
+     * @param array $_aUids
      * @return void
      */
-    public function storeUIDs(int $userId, array $uids)
+    public function storeUIDs(int $_iUserId, array $_aUids)
     {
-        Redis::hset('uids:' . $userId, 'uid1', $uids[0]);
-        Redis::hset('uids:' . $userId, 'uid2', $uids[1]);
+        Redis::hset('uids:' . $_iUserId, 'uid1', $_aUids[0]);
+        Redis::hset('uids:' . $_iUserId, 'uid2', $_aUids[1]);
+        Redis::expire('uids:' . $_iUserId, 3600);
     }
 
     /**
      * 從Redis中獲得UID
      * 
-     * @param int $userId
+     * @param int $_iUserId
      * @return array|null
      */
-    public function getUIDs(int $userId): ?array
+    public function getUIDs(int $_iUserId): ?array
     {
-        return Redis::hmget('uids:' . $userId, 'uid1', 'uid2');
+        return Redis::hmget('uids:' . $_iUserId, 'uid1', 'uid2');
     }
 }

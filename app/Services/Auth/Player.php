@@ -33,10 +33,11 @@ class Player
 
         if ($aPlayer != null) {
             if (password_verify($_aData['password'], $aPlayer['password'])) {
-                $sUID = substr(sha1(uniqid('', true)), 1, 10);
-                $sUID2 = substr(md5(uniqid('', true)), 3, 12);
+                $aUID = $this->generateUID();
 
-                $this->oRedisRepositories->storeUIDs($aPlayer['id'], [$sUID, $sUID2]);
+                $this->oRedisRepositories->storeUIDs($aPlayer['id'], $aUID);
+
+                
 
                 Session::put('user_logged_in', true);
                 Session::put('login_time', now());
@@ -57,5 +58,13 @@ class Player
                 'message' => '帳號不存在!',
             ];
         }
+    }
+
+    protected function generateUID()
+    {
+        $sUID = substr(sha1(uniqid('', true)), 1, 10);
+        $sUID2 = substr(md5(uniqid('', true)), 3, 12);
+
+        return [$sUID, $sUID2];
     }
 }

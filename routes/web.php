@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::middleware('auth.check')->get('/roulette', function () {
+    return view('roulette');
+});
 
 Route::get('/api/routes', function () {
     return [
@@ -33,4 +38,4 @@ Route::get('/api/routes', function () {
     ];
 });
 
-Route::get('/{any}', 'App\Http\Controllers\Auth\AuthController@index')->where('any', '.*');
+Route::get('/{any}', [AuthController::class, 'index'])->where('any', '.*');
