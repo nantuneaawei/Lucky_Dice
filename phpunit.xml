@@ -16,6 +16,17 @@
         <include>
             <directory>app</directory>
         </include>
+        <exclude>
+            <!-- 排除指定的檔案 -->
+            <file>app/Services/CookieService.php</file>
+            <file>app/Services/SessionService.php</file>
+            <file>app/Services/UIDService.php</file>
+            <!-- 排除指定的資料夾 -->
+            <directory>app/Console</directory>
+            <directory>app/Foundation</directory>
+            <directory>app/Providers</directory>
+            <directory>app/Support</directory>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
