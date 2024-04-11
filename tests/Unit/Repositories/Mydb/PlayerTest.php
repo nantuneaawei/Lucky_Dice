@@ -111,5 +111,9 @@ class PlayerTest extends TestCase
         $this->assertEquals($oPlayer->username, $aFoundMember['username']);
         $this->assertEquals($oPlayer->email, $aFoundMember['email']);
         $this->assertEquals($oPlayer->password, $aFoundMember['password']);
+
+        $aNonExistingMember = $this->oPlayerRepositories->findMemberByEmail('nonexisting@example.com');
+
+        $this->assertNull($aNonExistingMember);
     }
 }
