@@ -152,4 +152,38 @@ class GameServiceTest extends TestCase
         $this->assertEquals($bExpected, $bActual);
     }
 
+    /**
+     * testAddMultipleBetRecordsFailure
+     * 新增多筆下注紀錄 - 失敗情況
+     * 下注兩筆，其中一筆新增失敗
+     * @group game
+     * @return void
+     */
+    public function testAddMultipleBetRecordsFailure()
+    {
+        $aBets = [
+            [
+                'player_id' => 1,
+                'bet_id' => 1,
+                'bet_type' => 'number',
+                'bet_content' => '5',
+                'bet_amount' => 100,
+            ],
+            [
+                
+            ],
+        ];
+
+        $this->oBetRepository->shouldReceive('addBetRecord')
+            ->times(count($aBets))
+            ->andReturnUsing(function ($bet) {
+                return isset($bet['player_id']) && isset($bet['bet_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
+            });
+
+        $bActual = $this->oGameService->addMultipleBetRecords($aBets);
+
+        $bExpected = false;
+
+        $this->assertEquals($bExpected, $bActual);
+    }
 }
