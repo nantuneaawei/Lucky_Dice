@@ -32,7 +32,24 @@ class PlayerTest extends TestCase
 
         $this->oPlayerService = new PlayerServices($this->oPlayerRepository, $this->oRedisRepository, $this->oSessionService, $this->oCookieService, $this->oUIDService);
     }
+    
+    /**
+     * testRegisterResult
+     *
+     * @group player
+     * @return void
+     */
+    public function testRegisterResult()
+    {
+        $aResultTrue = $this->oPlayerService->registerResult(true);
 
+        $this->assertEquals('註冊成功', $aResultTrue['message']);
+
+        $aResultFalse = $this->oPlayerService->registerResult(false);
+
+        $this->assertEquals('註冊失敗', $aResultFalse['message']);
+    }
+    
     /**
      * testLoginPlayerSuccess
      *
