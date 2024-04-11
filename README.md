@@ -34,7 +34,7 @@ docker-compose exec app php artisan key:generate
 ## PHPUnit
 
 - 單元測試 : docker-compose exec app vendor/bin/phpunit
-
+- 測試覆蓋率 : docker-compose exec app ./vendor/bin/phpunit --coverage-html report/ --include src/
 ## 修改權限：
 如果發現權限不正確(出現The stream or file "/var/www/html/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied The exception occurred while attempting to log)，你可以在容器內使用 chmod 命令修改權限。例如，將存儲目錄及其子目錄的權限設置為 775：
 ```
