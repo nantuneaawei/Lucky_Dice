@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Game\BetController;
+use App\Http\Middleware\ValidateUIDMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,12 +14,11 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
-
-// Route::middleware('auth.check')->get('/roulette', function () {
-//     return view('roulette');
-// });
+Route::middleware([ValidateUIDMiddleware::class])->group(function () {
+    Route::get('/roulette', [BetController::class, 'roulette']);
+});
 
 Route::get('/api/routes', function () {
     return [
@@ -32,7 +33,7 @@ Route::get('/api/routes', function () {
             ],
             [
                 'path' => '/roulette',
-                'component' => 'Roulette'
+                'component' => 'Roulette',
             ],
         ],
     ];
