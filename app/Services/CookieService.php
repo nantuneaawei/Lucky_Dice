@@ -20,4 +20,9 @@ class CookieService
     {
         Cookie::queue(Cookie::forget($_sKey));
     }
+
+    public function has($_sKey)
+    {
+        return Cookie::has($_sKey);
+    }
 }

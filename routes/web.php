@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Game\BetController;
-use App\Http\Middleware\ValidateUIDMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,27 +15,29 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::middleware([ValidateUIDMiddleware::class])->group(function () {
+Route::middleware(['UID.check'])->group(function () {
     Route::get('/roulette', [BetController::class, 'roulette']);
 });
 
-Route::get('/api/routes', function () {
-    return [
-        'routes' => [
-            [
-                'path' => '/login',
-                'component' => 'Login',
+Route::prefix('api')->group(function () {
+    Route::get('/routes', function () {
+        return [
+            'routes' => [
+                [
+                    'path' => '/login',
+                    'component' => 'Login',
+                ],
+                [
+                    'path' => '/register',
+                    'component' => 'Register',
+                ],
+                [
+                    'path' => '/roulette',
+                    'component' => 'Roulette',
+                ],
             ],
-            [
-                'path' => '/register',
-                'component' => 'Register',
-            ],
-            [
-                'path' => '/roulette',
-                'component' => 'Roulette',
-            ],
-        ],
-    ];
+        ];
+    });
 });
 
 Route::get('/{any}', [AuthController::class, 'index'])->where('any', '.*');

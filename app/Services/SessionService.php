@@ -30,4 +30,9 @@ class SessionService
     {
         Session::flush();
     }
+
+    public function all()
+    {
+        return Session::all();
+    }
 }
