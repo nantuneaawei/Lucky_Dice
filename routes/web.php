@@ -19,25 +19,23 @@ Route::middleware(['UID.check'])->group(function () {
     Route::get('/roulette', [BetController::class, 'roulette']);
 });
 
-Route::prefix('api')->group(function () {
-    Route::get('/routes', function () {
-        return [
-            'routes' => [
-                [
-                    'path' => '/login',
-                    'component' => 'Login',
-                ],
-                [
-                    'path' => '/register',
-                    'component' => 'Register',
-                ],
-                [
-                    'path' => '/roulette',
-                    'component' => 'Roulette',
-                ],
+Route::get('/api/routes', function () {
+    return [
+        'routes' => [
+            [
+                'path' => '/login',
+                'component' => 'Login',
             ],
-        ];
-    });
+            [
+                'path' => '/register',
+                'component' => 'Register',
+            ],
+            [
+                'path' => '/roulette',
+                'component' => 'Roulette',
+            ],
+        ],
+    ];
 });
 
 Route::get('/{any}', [AuthController::class, 'index'])->where('any', '.*');
