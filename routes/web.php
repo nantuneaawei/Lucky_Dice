@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Game\BetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::middleware(['UID.check'])->group(function () {
-    Route::get('/roulette', [BetController::class, 'roulette']);
-});
 
 Route::get('/api/routes', function () {
     return [
