@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { login } from '../login.js';
+
 export default {
   data() {
     return {
@@ -32,13 +34,13 @@ export default {
         email: this.email,
         password: this.password,
       };
-      axios.post('/api/login', loginData)
+      login(loginData)
         .then(response => {
-          if (response.data.state) {
+          if (response.state) {
             alert('登入成功！');
             this.$router.push('/roulette');
           } else {
-            this.errorMessage = response.data.message;
+            this.errorMessage = response.message;
           }
         })
         .catch(error => {
