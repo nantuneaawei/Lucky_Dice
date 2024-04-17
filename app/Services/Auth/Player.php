@@ -44,13 +44,13 @@ class Player
 
                 $this->oRedisRepositories->storeUIDs($aPlayer['id'], $aUID);
 
-                $this->setSessionData($aPlayer);
-
                 $this->setUIDCookie($aUID);
 
                 return [
                     'state' => true,
                     'message' => '登入成功!',
+                    'uid1' => $aUID[0],
+                    'uid2' => $aUID[1],
                 ];
             } else {
                 return [
@@ -64,13 +64,6 @@ class Player
                 'message' => '帳號不存在!',
             ];
         }
-    }
-
-    protected function setSessionData($_aPlayer)
-    {
-        $this->oSessionService->put('user_id', $_aPlayer['id']);
-
-        $this->oSessionService->put('user_name', $_aPlayer['username']);
     }
 
     protected function setUIDCookie($_aUID)
