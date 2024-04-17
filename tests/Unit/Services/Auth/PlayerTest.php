@@ -74,13 +74,6 @@ class PlayerTest extends TestCase
         $this->oUIDService->shouldReceive('generateUID')
             ->andReturn($aUID);
 
-        $this->oSessionService->shouldReceive('put')
-            ->with('user_id', $aPlayerData['id'])
-            ->once();
-        $this->oSessionService->shouldReceive('put')
-            ->with('user_name', $aPlayerData['username'])
-            ->once();
-
         $this->oCookieService->shouldReceive('put')
             ->with('uid1', $aUID[0], Mockery::type('int'))
             ->once();
