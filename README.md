@@ -88,3 +88,8 @@ docker-compose exec app php artisan test --filter RedisTest
 ```
 docker-compose exec app npm install vue-router@4.2.5 --save
 ```
+
+## 安裝Vuex
+```
+docker-compose exec app npm install vuex@4.1.0 --save
+```
