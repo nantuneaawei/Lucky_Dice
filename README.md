@@ -62,16 +62,12 @@ docker-compose exec app npm run dev
 或是更改vite.config.js時
 ```
 docker-compose exec app npm run build
+docker-compose exec app npm run start
 ```
 
 ## 安裝axios
 ```
 docker-compose exec app npm install axios
-```
-
-##
-```
-docker-compose exec app npm run start
 ```
 
 ## 安裝redis套件
