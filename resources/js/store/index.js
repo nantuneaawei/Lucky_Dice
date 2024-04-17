@@ -14,6 +14,7 @@ const store = createStore({
   actions: {
     loginSuccess({ commit }, playerInfo) {
       commit('setPlayer', playerInfo);
+      commit('setLoggedIn', true);
     },
   },
 });

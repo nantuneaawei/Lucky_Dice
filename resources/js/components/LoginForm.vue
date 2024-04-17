@@ -19,6 +19,7 @@
 
 <script>
 import { login } from '../login.js';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -29,23 +30,23 @@ export default {
     };
   },
   methods: {
-    login() {
-      const loginData = {
-        email: this.email,
-        password: this.password,
-      };
-      login(loginData)
-        .then(response => {
-          if (response.state) {
-            alert('登入成功！');
-            this.$router.push('/roulette');
-          } else {
-            this.errorMessage = response.message;
-          }
-        })
-        .catch(error => {
-          this.errorMessage = '登入失敗!請重試';
-        });
+    ...mapActions(['loginSuccess']),
+    async login() {
+      try {
+        const response = await axios.post('/login', { email: this.email, password: this.password });
+        const { state, message, playerInfo } = response.data;
+
+        if (state) {
+          await this.loginSuccess(playerInfo);
+          alert('登入成功！');
+          this.$router.push('/roulette');
+        } else {
+          this.errorMessage = message;
+        }
+      } catch (error) {
+        console.error('登入失敗：', error);
+        this.errorMessage = '登入失敗，請重新登入';
+      }
     },
     redirectToRegister() {
       this.$router.push('/register');

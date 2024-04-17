@@ -35,3 +35,5 @@ Route::get('/api/routes', function () {
 });
 
 Route::get('/{any}', [AuthController::class, 'index'])->where('any', '.*');
+
+Route::post('/login', [AuthController::class, 'LoginMember']);
