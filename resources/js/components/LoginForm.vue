@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { login } from '../login.js';
+import { performLogin } from '../login.js';
 import { mapActions } from 'vuex';
 
 export default {
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     ...mapActions(['loginSuccess']),
-    async login() {
+    async performLogin() {
       try {
         const response = await axios.post('/login', { email: this.email, password: this.password });
         const { state, message, playerInfo } = response.data;
@@ -54,6 +54,7 @@ export default {
   },
 };
 </script>
+
 
 <style>
 .error {

@@ -65,6 +65,11 @@ docker-compose exec app npm run build
 docker-compose exec app npm run start
 ```
 
+## 查詢npm已安裝套件
+```
+docker-compose exec app npm list
+```
+
 ## 安裝axios
 ```
 docker-compose exec app npm install axios
