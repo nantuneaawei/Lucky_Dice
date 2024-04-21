@@ -32,19 +32,19 @@ export default {
     ...mapActions(['loginSuccess']),
     async login() {
       try {
-          const response = await axios.post('/login', { email: this.email, password: this.password });
-          const { state, message, uid1, uid2 } = response.data;
+        const response = await axios.post('/login', { email: this.email, password: this.password });
+        const { state, message } = response.data;
 
-          if (state) {
-              await this.loginSuccess({ uid1, uid2 });
-              alert(message);
-              this.$router.push('/roulette');
-          } else {
-              this.errorMessage = message;
-          }
+        if (state) {
+          await this.loginSuccess();
+          alert(message);
+          this.$router.push('/roulette');
+        } else {
+          this.errorMessage = message;
+        }
       } catch (error) {
-          console.error('登入失敗：', error);
-          this.errorMessage = '登入失敗，請重新登入';
+        console.error('Login failed:', error);
+        this.errorMessage = 'Login failed, please try again';
       }
     },
     redirectToRegister() {
@@ -52,10 +52,8 @@ export default {
     }
   },
 };
+
 </script>
-
-
-
 
 <style>
 .error {
