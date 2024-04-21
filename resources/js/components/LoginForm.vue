@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { performLogin } from '../login.js';
 import { mapActions } from 'vuex';
 
 export default {
@@ -31,21 +30,21 @@ export default {
   },
   methods: {
     ...mapActions(['loginSuccess']),
-    async performLogin() {
+    async login() {
       try {
-        const response = await axios.post('/login', { email: this.email, password: this.password });
-        const { state, message, playerInfo } = response.data;
+          const response = await axios.post('/login', { email: this.email, password: this.password });
+          const { state, message, uid1, uid2 } = response.data;
 
-        if (state) {
-          await this.loginSuccess(playerInfo);
-          alert('登入成功！');
-          this.$router.push('/roulette');
-        } else {
-          this.errorMessage = message;
-        }
+          if (state) {
+              await this.loginSuccess({ uid1, uid2 });
+              alert(message);
+              this.$router.push('/roulette');
+          } else {
+              this.errorMessage = message;
+          }
       } catch (error) {
-        console.error('登入失敗：', error);
-        this.errorMessage = '登入失敗，請重新登入';
+          console.error('登入失敗：', error);
+          this.errorMessage = '登入失敗，請重新登入';
       }
     },
     redirectToRegister() {
@@ -54,6 +53,8 @@ export default {
   },
 };
 </script>
+
+
 
 
 <style>

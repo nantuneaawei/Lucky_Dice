@@ -4,11 +4,15 @@ const store = createStore({
   state() {
     return {
       player: null,
+      isLoggedIn: false,
     };
   },
   mutations: {
     setPlayer(state, playerInfo) {
       state.player = playerInfo;
+    },
+    setLoggedIn(state, value) {
+      state.isLoggedIn = value;
     },
   },
   actions: {
@@ -18,5 +22,6 @@ const store = createStore({
     },
   },
 });
+
 
 export default store;

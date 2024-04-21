@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '../store';
 import RouletteBettingArea from '../components/RouletteBetArea.vue';
 import RegisterForm from '../components/RegisterForm.vue';
 import LoginForm from '../components/LoginForm.vue';
@@ -21,15 +22,13 @@ router.beforeEach((to, from, next) => {
       return;
     }
   }
-  next();
 
-  if (to.matched.some(record => record.path === '/roulette')) {
-    next();
-  }
+  next();
 });
 
+
 function isLoggedIn() {
-  return store.state.auth.isLoggedIn;
+  return store.state.isLoggedIn;
 }
 
 export default router;
