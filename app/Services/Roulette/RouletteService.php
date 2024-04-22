@@ -3,17 +3,23 @@
 namespace App\Services\Roulette;
 
 use App\Support\Facades\Random;
-use Illuminate\Support\Facades\Config;
 
 class RouletteService
 {
-    protected $aSet;
+    protected $wheel = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36
+    ];
 
-    public function __construct()
+    /**
+     * Set the wheel array.
+     *
+     * @param array $wheel
+     */
+    public function setWheel(array $wheel)
     {
-        $this->aSet = Config::get('RouletteSet.wheel');
+        $this->wheel = $wheel;
     }
-    
+
     /**
      * generateRoulette
      *
@@ -24,7 +30,7 @@ class RouletteService
     {
         $iRandom = $this->getRandom();
 
-        $iResult = $this->aSet[$iRandom];
+        $iResult = $this->wheel[$iRandom];
 
         $aResultDetails = $this->getResultDetails($iResult);
 
@@ -33,7 +39,7 @@ class RouletteService
             'details' => $aResultDetails,
         ];
     }
-    
+
     /**
      * getRandom
      *
@@ -43,10 +49,10 @@ class RouletteService
     private function getRandom()
     {
         $iMin = 0;
-        $iMax = count($this->aSet) - 1;
+        $iMax = count($this->wheel) - 1;
         return Random::rand($iMin, $iMax);
     }
-    
+
     /**
      * getResultDetails
      *
