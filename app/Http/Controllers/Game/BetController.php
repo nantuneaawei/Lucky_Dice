@@ -4,27 +4,27 @@ namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\mydb\Player as PlayerRepositories;
+use App\Repositories\RedisRepository as RedisRepositories;
 use App\Services\CookieService;
 use App\Services\Roulette\GameService;
 use App\Services\Roulette\RouletteService;
-use App\Services\SessionService;
 use Illuminate\Http\Request;
 
 class BetController extends Controller
 {
     protected $oPlayerRepositories;
+    protected $oRedisRepositories;
     protected $oGameService;
     protected $oRouletteService;
     protected $oCookieService;
-    protected $oSessionService;
 
-    public function __construct(PlayerRepositories $_oPlayerRepositories, GameService $_oGameService, RouletteService $_oRouletteService, CookieService $_oCookieService, SessionService $_oSessionService)
+    public function __construct(PlayerRepositories $_oPlayerRepositories, RedisRepositories $_oRedisRepositories, GameService $_oGameService, RouletteService $_oRouletteService, CookieService $_oCookieService)
     {
         $this->oPlayerRepositories = $_oPlayerRepositories;
+        $this->oRedisRepositories = $_oRedisRepositories;
         $this->oGameService = $_oGameService;
         $this->oRouletteService = $_oRouletteService;
         $this->oCookieService = $_oCookieService;
-        $this->oSessionService = $_oSessionService;
     }
 
     public function roulette()
@@ -34,9 +34,14 @@ class BetController extends Controller
 
     public function placeBet(Request $oRequest)
     {
-        $iUID1 = $this->oCookieService->get('uid1');
-        $iData = $this->getCryptCookie($iUID1);
-        dd($iData);
+        $sCookieUID1 = $this->oCookieService->get('uid1');
+        $sCookieUID2 = $this->oCookieService->get('uid2');
+        $sUID1 = $this->getCryptCookie($sCookieUID1);
+        $sUID2 = $this->getCryptCookie($sCookieUID2);
+        $iPlayerId = $this->oRedisRepositories->getPlayerIdByCookieUIDs($sUID1, $sUID2);
+
+        $aBet = $oRequest->all();
+
         return response()->json(['message' => 'Bet placed successfully']);
     }
 
