@@ -42,6 +42,21 @@ class BetController extends Controller
 
         $aBet = $oRequest->all();
 
+        $iTotalBetAmount = 0;
+        foreach ($aBet as &$aOneBet) {
+            $aOneBet['player_id'] = $iPlayerId;
+            $iTotalBetAmount += $aOneBet['amount'];
+        }
+        
+        $bBetAmount = $this->oGameService->placeBet($iPlayerId, $iTotalBetAmount);
+        if ($bBetAmount) {
+            $bAddBetRecord = $this->oGameService->addMultipleBetRecords($aBet);
+            if ($bAddBetRecord) {
+                return response()->json(['status' => 'true', 'message' => '下注成功']);
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => '金額不足']);
+        }
         return response()->json(['message' => 'Bet placed successfully']);
     }
 

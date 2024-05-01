@@ -36,10 +36,9 @@ class Bet
     {
         return $this->oBetModel::create([
             'player_id' => $_aBets['player_id'],
-            'bet_id' => $_aBets['bet_id'],
-            'bet_type' => $_aBets['bet_type'],
-            'bet_content' => $_aBets['bet_content'],
-            'bet_amount' => $_aBets['bet_amount'],
+            'bet_type' => $_aBets['type'],
+            'bet_content' => $_aBets['value'],
+            'bet_amount' => $_aBets['amount'],
         ]);
     }
 
