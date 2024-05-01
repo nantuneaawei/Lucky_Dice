@@ -31,13 +31,12 @@ class BetController extends Controller
     {
         return view('game.roulette');
     }
+
     public function placeBet(Request $oRequest)
     {
-        $iUserId = $this->oSessionService->get('user_id');
-        $sUserName = $this->oSessionService->get('user_name');
-
-        dd($iUserId, $sUserName);
-        $iUserId = $this->oSessionService->get('user_id');
+        $iUID1 = $this->oCookieService->get('uid1');
+        $iData = $this->getCryptCookie($iUID1);
+        dd($iData);
         return response()->json(['message' => 'Bet placed successfully']);
     }
 
@@ -48,5 +47,12 @@ class BetController extends Controller
         } else {
             return false;
         }
+    }
+
+    protected function getCryptCookie($_iCookie)
+    {
+        $iDecrypt = decrypt($_iCookie, false);
+        $iAssort = explode('|', $iDecrypt);
+        return $iAssort[1];
     }
 }
