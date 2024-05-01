@@ -17,7 +17,7 @@ class GameService
     }
 
     /**
-     * 玩家下注
+     * 檢查餘額是否大於下注金額
      *
      * @param int $playerId
      * @param int $betAmount

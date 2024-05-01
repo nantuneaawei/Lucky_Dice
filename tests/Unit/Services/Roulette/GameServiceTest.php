@@ -36,17 +36,14 @@ class GameServiceTest extends TestCase
     {
         $iPlayerId = 1;
         $iBalance = 500;
+        $iBetAmount = 300;
 
         $this->oPlayerRepository->shouldReceive('getPlayerBalance')
             ->with($iPlayerId)
             ->andReturn($iBalance);
 
-        $this->oBetRepository->shouldReceive('addBetRecord')
-            ->once()
-            ->withArgs([$iPlayerId, Mockery::type('int')])
-            ->andReturn(true);
+        $this->oBetRepository->shouldNotReceive('addBetRecord');
 
-        $iBetAmount = 300;
         $bActual = $this->oGameService->placeBet($iPlayerId, $iBetAmount);
 
         $bExpected = true;
@@ -91,14 +88,12 @@ class GameServiceTest extends TestCase
         $aBets = [
             [
                 'player_id' => 1,
-                'bet_id' => 1,
                 'bet_type' => 'number',
                 'bet_content' => '5',
                 'bet_amount' => 100,
             ],
             [
                 'player_id' => 1,
-                'bet_id' => 1,
                 'bet_type' => 'color',
                 'bet_content' => 'red',
                 'bet_amount' => 200,
@@ -108,7 +103,7 @@ class GameServiceTest extends TestCase
         $this->oBetRepository->shouldReceive('addBetRecord')
             ->times(count($aBets))
             ->with(Mockery::on(function ($bet) {
-                return isset($bet['player_id']) && isset($bet['bet_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
+                return isset($bet['player_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
             }))
             ->andReturn(true);
 
@@ -131,7 +126,6 @@ class GameServiceTest extends TestCase
         $aBets = [
             [
                 'player_id' => 1,
-                'bet_id' => 1,
                 'bet_type' => 'number',
                 'bet_content' => '5',
                 'bet_amount' => 100,
@@ -141,7 +135,7 @@ class GameServiceTest extends TestCase
         $this->oBetRepository->shouldReceive('addBetRecord')
             ->times(count($aBets))
             ->with(Mockery::on(function ($bet) {
-                return isset($bet['player_id']) && isset($bet['bet_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
+                return isset($bet['player_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
             }))
             ->andReturn(true);
 
@@ -164,20 +158,19 @@ class GameServiceTest extends TestCase
         $aBets = [
             [
                 'player_id' => 1,
-                'bet_id' => 1,
                 'bet_type' => 'number',
                 'bet_content' => '5',
                 'bet_amount' => 100,
             ],
             [
-                
+
             ],
         ];
 
         $this->oBetRepository->shouldReceive('addBetRecord')
             ->times(count($aBets))
             ->andReturnUsing(function ($bet) {
-                return isset($bet['player_id']) && isset($bet['bet_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
+                return isset($bet['player_id']) && isset($bet['bet_type']) && isset($bet['bet_content']) && isset($bet['bet_amount']);
             });
 
         $bActual = $this->oGameService->addMultipleBetRecords($aBets);
@@ -186,4 +179,12 @@ class GameServiceTest extends TestCase
 
         $this->assertEquals($bExpected, $bActual);
     }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
+
+        parent::tearDown();
+    }
+
 }

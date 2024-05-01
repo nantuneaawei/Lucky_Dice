@@ -54,21 +54,21 @@ export default {
     };
   },
   methods: {
-    setBetAmount(amount) {
-      this.betAmount = amount;
+    setBetAmount(bet_amount) {
+      this.betAmount = bet_amount;
     },
-    placeBet(type, value) {
+    placeBet(bet_type, bet_content) {
       if (this.betAmount === 0) {
         alert('尚未選擇籌碼! 請先選擇籌碼。');
         return;
       }
 
-      if (type === 'number') {
-        this.bets[type][value] += this.betAmount;
+      if (bet_type === 'number') {
+        this.bets[bet_type][bet_content] += this.betAmount;
       } else {
-        this.bets[type][value] = this.betAmount;
+        this.bets[bet_type][bet_content] = this.betAmount;
       }
-      console.log('Placing bet:', type, value, 'Amount:', this.betAmount);
+      console.log('Placing bet:', bet_type, bet_content, 'Amount:', this.betAmount);
     },
     startGame() {
       console.log('Starting game. Place your bets!');
@@ -82,10 +82,10 @@ export default {
       }
 
       const betsData = [];
-      for (const [type, bets] of Object.entries(this.bets)) {
-        for (const [value, amount] of Object.entries(bets)) {
-          if (amount > 0) {
-            betsData.push({ type, value, amount });
+      for (const [bet_type, bets] of Object.entries(this.bets)) {
+        for (const [bet_content, bet_amount] of Object.entries(bets)) {
+          if (bet_amount > 0) {
+            betsData.push({ bet_type, bet_content, bet_amount });
           }
         }
       }

@@ -36,9 +36,9 @@ class Bet
     {
         return $this->oBetModel::create([
             'player_id' => $_aBets['player_id'],
-            'bet_type' => $_aBets['type'],
-            'bet_content' => $_aBets['value'],
-            'bet_amount' => $_aBets['amount'],
+            'bet_type' => $_aBets['bet_type'],
+            'bet_content' => $_aBets['bet_content'],
+            'bet_amount' => $_aBets['bet_amount'],
         ]);
     }
 
@@ -52,7 +52,7 @@ class Bet
     public function getBetRecord($_iPlayerId, $_iBetId)
     {
         return $this->oBetModel::where('player_id', $_iPlayerId)
-            ->where('bet_id', $_iBetId)
+            ->where('id', $_iBetId)
             ->first();
     }
 
@@ -67,11 +67,10 @@ class Bet
     public function updateBetRecord($_iPlayerId, $_iBetId, $_aData)
     {
         $iAffectedRows = $this->oBetModel::where('player_id', $_iPlayerId)
-            ->where('bet_id', $_iBetId)
+            ->where('id', $_iBetId)
             ->update($_aData);
 
         return $iAffectedRows > 0;
     }
-
 
 }

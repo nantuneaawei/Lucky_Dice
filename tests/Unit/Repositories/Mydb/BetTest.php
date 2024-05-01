@@ -67,7 +67,6 @@ class BetTest extends TestCase
 
         $aBets = [
             'player_id' => $oPlayer->id,
-            'bet_id' => 1,
             'bet_type' => 'number',
             'bet_content' => '5',
             'bet_amount' => 100,
@@ -91,13 +90,12 @@ class BetTest extends TestCase
         $oPlayer = Player::factory()->create();
         $oBetRecord = Bet::factory()->create([
             'player_id' => $oPlayer->id,
-            'bet_id' => 1,
             'bet_type' => 'number',
             'bet_content' => '5',
             'bet_amount' => 100,
         ]);
 
-        $aBetRecord = $this->oBetRepositories->getBetRecord($oPlayer->id, $oBetRecord->bet_id);
+        $aBetRecord = $this->oBetRepositories->getBetRecord($oPlayer->id, $oBetRecord->id);
 
         $this->assertNotNull($aBetRecord);
         $this->assertEquals($oBetRecord->id, $aBetRecord->id);
@@ -114,7 +112,6 @@ class BetTest extends TestCase
         $oPlayer = Player::factory()->create();
         $oBetRecord = Bet::factory(3)->create([
             'player_id' => $oPlayer->id,
-            'bet_id' => 1,
             'bet_type' => 'number',
             'bet_content' => rand(0, 36),
             'bet_amount' => 100,
@@ -127,10 +124,10 @@ class BetTest extends TestCase
 
         $bExpected = true;
 
-        $bResult = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->first()->bet_id, $aData);
+        $bResult = $this->oBetRepositories->updateBetRecord($oPlayer->id, $oBetRecord->first()->id, $aData);
 
         $oUpdatedBetRecords = Bet::where('player_id', $oPlayer->id)
-            ->where('bet_id', $oBetRecord->first()->bet_id)
+            ->where('id', $oBetRecord->first()->id)
             ->get();
 
         $this->assertEquals($bExpected, $bResult);
