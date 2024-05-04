@@ -2,6 +2,8 @@
 
 namespace App\Support\Facades;
 
+use Illuminate\Support\Facades\Facade;
+
 class Random extends Facade
 {
     /**
@@ -12,5 +14,10 @@ class Random extends Facade
     protected static function getFacadeAccessor()
     {
         return 'Random';
+    }
+
+    public static function rand($min, $max)
+    {
+        return rand($min, $max);
     }
 }

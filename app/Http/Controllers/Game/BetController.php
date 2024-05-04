@@ -52,11 +52,14 @@ class BetController extends Controller
         if ($bBetAmount) {
             $bAddBetRecord = $this->oGameService->addMultipleBetRecords($aBet);
             if ($bAddBetRecord) {
+                $aGame = $this->oRouletteService->generateRoulette();
                 return response()->json(['status' => 'true', 'message' => '下注成功']);
             }
         } else {
             return response()->json(['status' => 'false', 'message' => '金額不足']);
         }
+
+
         return response()->json(['message' => 'Bet placed successfully']);
     }
 
