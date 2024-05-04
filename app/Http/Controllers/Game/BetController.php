@@ -42,11 +42,7 @@ class BetController extends Controller
 
         $aBet = $oRequest->all();
 
-        $iTotalBetAmount = 0;
-        foreach ($aBet as &$aOneBet) {
-            $aOneBet['player_id'] = $iPlayerId;
-            $iTotalBetAmount += $aOneBet['bet_amount'];
-        }
+        $iTotalBetAmount = $this->oGameService->countTotalBetAmount($aBet, $iPlayerId);
         
         $bBetAmount = $this->oGameService->placeBet($iPlayerId, $iTotalBetAmount);
         if ($bBetAmount) {

@@ -52,5 +52,22 @@ class GameService
         }
         return true;
     }
+    /**
+     * countTotalBetAmount
+     * 計算下注總額
+     *
+     * @param  array $_aBet
+     * @param  int $_iPlayerId
+     * @return void
+     */
+    public function countTotalBetAmount($_aBet, $_iPlayerId)
+    {
+        $iTotalBetAmount = 0;
+        foreach ($_aBet as &$aOneBet) {
+            $aOneBet['player_id'] = $_iPlayerId;
+            $iTotalBetAmount += $aOneBet['bet_amount'];
+        }
 
+        return $iTotalBetAmount;
+    }
 }
