@@ -179,6 +179,29 @@ class GameServiceTest extends TestCase
 
         $this->assertEquals($bExpected, $bActual);
     }
+    
+    /**
+     * testCountTotalBetAmount
+     * 計算下注總額
+     *
+     * @group game
+     * @return void
+     */
+    public function testCountTotalBetAmount()
+    {
+        $aBet = [
+            ['bet_amount' => 100],
+            ['bet_amount' => 200],
+            ['bet_amount' => 300],
+        ];
+        $iPlayerId = 1;
+
+        $iTotalBetAmount = $this->oGameService->countTotalBetAmount($aBet, $iPlayerId);
+
+        $iExpectedTotalBetAmount = 600;
+
+        $this->assertEquals($iExpectedTotalBetAmount, $iTotalBetAmount);
+    }
 
     public function tearDown(): void
     {
