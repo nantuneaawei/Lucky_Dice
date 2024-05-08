@@ -179,10 +179,10 @@ class GameServiceTest extends TestCase
 
         $this->assertEquals($bExpected, $bActual);
     }
-    
+
     /**
      * testCountTotalBetAmount
-     * 計算下注總額
+     * 計算下注總額並加入ID
      *
      * @group game
      * @return void
@@ -196,11 +196,17 @@ class GameServiceTest extends TestCase
         ];
         $iPlayerId = 1;
 
-        $iTotalBetAmount = $this->oGameService->countTotalBetAmount($aBet, $iPlayerId);
+        $aResult = $this->oGameService->countTotalBetAmount($aBet, $iPlayerId);
 
         $iExpectedTotalBetAmount = 600;
+        $aExpectedModifiedBet = [
+            ['bet_amount' => 100, 'player_id' => 1],
+            ['bet_amount' => 200, 'player_id' => 1],
+            ['bet_amount' => 300, 'player_id' => 1],
+        ];
 
-        $this->assertEquals($iExpectedTotalBetAmount, $iTotalBetAmount);
+        $this->assertEquals($iExpectedTotalBetAmount, $aResult['total_bet_amount']);
+        $this->assertEquals($aExpectedModifiedBet, $aResult['bets']);
     }
 
     public function tearDown(): void

@@ -68,6 +68,6 @@ class GameService
             $iTotalBetAmount += $aOneBet['bet_amount'];
         }
 
-        return $iTotalBetAmount;
+        return ['total_bet_amount' => $iTotalBetAmount, 'bets' => $_aBet];
     }
 }

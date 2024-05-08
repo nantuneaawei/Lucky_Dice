@@ -42,11 +42,13 @@ class BetController extends Controller
 
         $aBet = $oRequest->all();
 
-        $iTotalBetAmount = $this->oGameService->countTotalBetAmount($aBet, $iPlayerId);
-        
+        $aBetData = $this->oGameService->countTotalBetAmount($aBet, $iPlayerId);
+        $iTotalBetAmount = $aBetData['total_bet_amount'];
+        $aModifiedBet = $aBetData['bets'];
+
         $bBetAmount = $this->oGameService->placeBet($iPlayerId, $iTotalBetAmount);
         if ($bBetAmount) {
-            $bAddBetRecord = $this->oGameService->addMultipleBetRecords($aBet);
+            $bAddBetRecord = $this->oGameService->addMultipleBetRecords($aModifiedBet);
             if ($bAddBetRecord) {
                 $aGame = $this->oRouletteService->generateRoulette();
                 return response()->json(['status' => 'true', 'message' => '下注成功']);
