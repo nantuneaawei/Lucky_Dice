@@ -23,7 +23,7 @@ class GameService
      * @param int $betAmount
      * @return bool
      */
-    public function placeBet($_iPlayerId, $_iBetAmount)
+    public function checkAmount($_iPlayerId, $_iBetAmount)
     {
         $iPlayerBalance = $this->oPlayerRepositories->getPlayerBalance($_iPlayerId);
 
@@ -69,5 +69,16 @@ class GameService
         }
 
         return ['total_bet_amount' => $iTotalBetAmount, 'bets' => $_aBet];
+    }
+
+    public function deductPlayerAmount($_iPlayerId, $_iTotalBetAmount)
+    {
+        $bDeduct = $this->oPlayerRepositories->deductBalance($_iPlayerId, $_iTotalBetAmount);
+
+        if ($bDeduct) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

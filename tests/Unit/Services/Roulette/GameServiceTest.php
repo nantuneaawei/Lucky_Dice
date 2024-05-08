@@ -44,7 +44,7 @@ class GameServiceTest extends TestCase
 
         $this->oBetRepository->shouldNotReceive('addBetRecord');
 
-        $bActual = $this->oGameService->placeBet($iPlayerId, $iBetAmount);
+        $bActual = $this->oGameService->checkAmount($iPlayerId, $iBetAmount);
 
         $bExpected = true;
 
@@ -70,7 +70,7 @@ class GameServiceTest extends TestCase
         $this->oBetRepository->shouldNotReceive('addBetRecord');
 
         $iBetAmount = 700;
-        $bActual = $this->oGameService->placeBet($iPlayerId, $iBetAmount);
+        $bActual = $this->oGameService->checkAmount($iPlayerId, $iBetAmount);
         $bExpected = false;
 
         $this->assertEquals($bExpected, $bActual);

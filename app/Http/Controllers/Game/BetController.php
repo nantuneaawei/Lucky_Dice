@@ -46,19 +46,21 @@ class BetController extends Controller
         $iTotalBetAmount = $aBetData['total_bet_amount'];
         $aModifiedBet = $aBetData['bets'];
 
-        $bBetAmount = $this->oGameService->placeBet($iPlayerId, $iTotalBetAmount);
+        //檢查餘額是否大於下注金額
+        $bBetAmount = $this->oGameService->checkAmount($iPlayerId, $iTotalBetAmount);
         if ($bBetAmount) {
+            //新增下注紀錄
             $bAddBetRecord = $this->oGameService->addMultipleBetRecords($aModifiedBet);
             if ($bAddBetRecord) {
+                //扣除餘額
+                $bDeductAmount = $this->oGameService->deductPlayerAmount($iPlayerId, $iTotalBetAmount);
+                //生成遊戲結果
                 $aGame = $this->oRouletteService->generateRoulette();
                 return response()->json(['status' => 'true', 'message' => '下注成功']);
             }
         } else {
             return response()->json(['status' => 'false', 'message' => '金額不足']);
         }
-
-
-        return response()->json(['message' => 'Bet placed successfully']);
     }
 
     protected function checkUserAuthentication($_oRequest)

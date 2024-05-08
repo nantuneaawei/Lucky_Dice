@@ -66,4 +66,17 @@ class Player
 
         return null;
     }
+
+    public function deductBalance($_iPlayerId, $_iTotalBetAmount)
+    {
+        $oPlayer = $this->oPlayerModel->find($_iPlayerId);
+
+        if ($oPlayer) {
+            $oPlayer->balance -= $_iTotalBetAmount;
+            $oPlayer->save();
+            return true;
+        }
+
+        return false;
+    }
 }
